@@ -4,34 +4,27 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+    
+    public Tile[,] AllTile = new Tile[9, 9];
 
-    public GameStage State;
-    private bool moveMade;
-
-    private Tile[,] AllTile = new Tile[8, 8];
-    private List<Tile[]> columns = new List<Tile[]>();
-    private List<Tile[]> rows = new List<Tile[]>();
-    private List<Tile> EmptySquares = new List<Tile>();
 
 	// Use this for initialization
 	void Start ()
     {
-        Tile[] AllTileOneDim = GameObject.FindObjectOfType<Tile>();
-        object[] test = GameObject.FindObjectOfType(typeof(Tile));
-        GameObject[] obj= SceneManager.GetActiveScene().GetRootGameObjects();
-        foreach(object t in obj)
-        {
-
-        }
+        Tile[] AllTileOneDim = GameObject.FindObjectsOfType<Tile>();
 
         foreach (Tile t in AllTileOneDim)
         {
             t.PieceTextureNumber = 0;
             AllTile[t.indRow, t.indCol] = t;
-            EmptySquares.Add(t);
         }
 	}
 	
+    public void GameBtnHandler()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+    }
+
 	// Update is called once per frame
 	void Update () {
 		
