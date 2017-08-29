@@ -27,8 +27,8 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
 
     public void SetVisible()
     {
-        TileCanvas.enabled = false;
-        Piecetexture.enabled = false;
+        TileCanvas.enabled = true;
+        Piecetexture.enabled = true;
     }
 
     public void SetEmpty()
@@ -78,23 +78,14 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
         
         GameManager[] theCanvases = GameObject.FindObjectsOfType<GameManager>();
         GameManager TheCanvas = theCanvases[0];
-        //TheCanvas.AllTile[indRow,indCol]
+
+
         if (this.PieceTextureNumber == 0)
         {
+            this.PieceTextureNumber=TheCanvas.CheckTile();
 
-            /*TheCanvas.CurrentTileSelection[0] = indRow;
-            TheCanvas.CurrentTileSelection[1] = indCol;
-            TheCanvas.CheckSelection();
-            */
         }
-        else
-        {
-            if(PieceTextureNumber != 0)
-            {
-                Stone CanvasStone = GetComponentInChildren<Stone>();
-               // CanvasStone.SelectPiece();
-            }
-        }
+        
         
     }
 

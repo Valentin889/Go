@@ -1,5 +1,4 @@
 D:\go\Go\Jeugo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
-D:\go\Go\Jeugo\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 D:\go\Go\Jeugo\Temp\bin\Debug\Assembly-CSharp.dll
 D:\go\Go\Jeugo\Temp\bin\Debug\Assembly-CSharp.pdb
 D:\go\Go\Jeugo\Temp\bin\Debug\nunit.framework.dll
