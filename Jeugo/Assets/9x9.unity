@@ -14097,6 +14097,7 @@ MonoBehaviour:
   indRow: 0
   indCol: 0
   StoneNumber: 0
+  lstLiberty: []
 --- !u!1 &1448005311
 GameObject:
   m_ObjectHideFlags: 0

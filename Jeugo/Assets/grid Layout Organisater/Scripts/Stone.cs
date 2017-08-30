@@ -3,33 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Stone : MonoBehaviour, IPointerDownHandler
+public class Stone
 {
 
     public int indRow;
     public int indCol;
     public int StoneNumber;
+    public List<Tile> lstLiberty;
 
-    public void SelectStone()
+    public Stone()
     {
-        GameManager[] theCanvases = GameManager.FindObjectsOfType<GameManager>();
-        GameManager TheCanvas = theCanvases[0];
-
-        
+        lstLiberty = new List<Tile>();
     }
 
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    public void OnPointerDown(PointerEventData evenData)
-    {
-        SelectStone();
-    }
 }

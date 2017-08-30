@@ -5,21 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     
-    public Tile[,] AllTile = new Tile[9, 9];
+    public Tile[][] AllTile = new Tile[9][];
     private bool bPlayer1;
 
-	// Use this for initialization
-	void Start ()
+    void Awake()
     {
         Tile[] AllTileOneDim = GameObject.FindObjectsOfType<Tile>();
         bPlayer1 = true;
+       
+        for (int i = 0; i < AllTile.Length; i++)
+        {
+            AllTile[i] = new Tile[9];
+        }
+
+
 
         foreach (Tile t in AllTileOneDim)
         {
+            AllTile[t.indRow][t.indCol] = t;
+            Debug.Log(AllTile[t.indRow][t.indCol]);
             t.PieceTextureNumber = 0;
-            AllTile[t.indRow, t.indCol] = t;
+
         }
-	}
+      
+        
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        
+    }
 	
     public void GameBtnStart()
     {
@@ -46,6 +62,41 @@ public class GameManager : MonoBehaviour {
         bPlayer1 = !bPlayer1;
         return iReturn;
     }
+
+	public void SetStoneLiberty(Stone ActiveStone)
+	{
+        int iCol = ActiveStone.indCol;
+        int iRow = ActiveStone.indRow;
+
+        Debug.Log(iCol);
+        Debug.Log(iRow);
+
+
+        Tile TileTest = AllTile[iCol][iRow - 1];
+        Debug.Log(TileTest.PieceTextureNumber);
+        TestLiberty(TileTest, ActiveStone);
+        
+        TileTest = AllTile[iCol][iRow + 1];
+        Debug.Log(TileTest.PieceTextureNumber);
+        TestLiberty(TileTest, ActiveStone);
+
+        TileTest = AllTile[iCol-1][iRow];
+        Debug.Log(TileTest.PieceTextureNumber);
+        TestLiberty(TileTest, ActiveStone);
+
+        TileTest = AllTile[iCol+1][iRow];
+        Debug.Log(TileTest.PieceTextureNumber);
+        TestLiberty(TileTest, ActiveStone);
+    }
+    private void TestLiberty(Tile tile, Stone stone)
+    {
+        Debug.Log(stone.indRow);
+        if (tile.PieceTextureNumber == 0)
+        {
+           stone.lstLiberty.Add((tile));
+        }
+    }
+
 
 	// Update is called once per frame
 	void Update () {

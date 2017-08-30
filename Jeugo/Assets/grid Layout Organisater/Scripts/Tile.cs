@@ -17,7 +17,6 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
     {
         Piecetexture = GetComponentInChildren<RawImage>();
         TileCanvas = GetComponentInChildren<Canvas>();
-        StoneInTile = GetComponentInChildren<Stone>();
     }
 
     private void ApplyStyleFromHolder(int index)
@@ -33,7 +32,7 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
 
     public void SetEmpty()
     {
-        TileCanvas.enabled = false;
+        //TileCanvas.enabled = false;
         Piecetexture.enabled = false;
     }
     public void SetStoneCoordinates()
@@ -65,8 +64,9 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
     }
 
 	// Use this for initialization
-	void Start () {
-        SetStoneCoordinates();
+	void Start ()
+    {
+
 	}
 	
 	// Update is called once per frame
@@ -80,9 +80,14 @@ public class Tile : MonoBehaviour, IPointerDownHandler {
         GameManager TheCanvas = theCanvases[0];
 
 
+
         if (this.PieceTextureNumber == 0)
         {
-            this.PieceTextureNumber=TheCanvas.CheckTile();
+            StoneInTile = new Stone();
+            SetStoneCoordinates();
+
+           // TheCanvas.SetStoneLiberty(StoneInTile);
+            this.PieceTextureNumber = TheCanvas.CheckTile();
 
         }
         
