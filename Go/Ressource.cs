@@ -14,13 +14,18 @@ namespace Go
         private static Texture2D goban1;
         private static Texture2D stone;
         private static Texture2D line;
+        private static Texture2D board;
+        private static GraphicsDevice graphic;
 
         public static void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
         {
+            graphic = graphicsDevice;
+
             goban1 = Content.Load<Texture2D>("goban1");
-            stone = CreateCircle(30, graphicsDevice);
-            line = new Texture2D(graphicsDevice, 1, 1);
+            stone = CreateCircle(30, graphic);
+            line = new Texture2D(graphic, 1, 1);
             line.SetData<Color>(new Color[] {Color.White});
+            
         }
 
         public static Texture2D GetGoban1()
@@ -31,6 +36,17 @@ namespace Go
         public static Texture2D GetStone()
         {
             return stone;
+        }
+
+        public static Texture2D GetBoard()
+        {
+            return board;
+        }
+        public static void SetBoard()
+        {
+            board = new Texture2D(graphic, 1,1);
+            board.SetData<Color>(new Color[] { Color.White });
+
         }
         private static Texture2D CreateCircle(int radius, GraphicsDevice graphicsDevice)
         {
@@ -68,22 +84,7 @@ namespace Go
             // calculate angle to rotate line
             float angle = (float)Math.Atan2(edge.Y, edge.X);
 
-            new Rectangle((int)start.X, (int)start.Y, (int)edge.Length(), 1);
-
-
-
-            sb.Draw(line,
-            new Rectangle(// rectangle defines shape of line and position of start of line
-                (int)start.X,
-                (int)start.Y,
-                (int)edge.Length(), //sb will strech the texture to fill this rectangle
-                5), //width of line, change this to make thicker line
-            null,
-            Color.Black, //colour of line
-            angle,     //angle of line (calulated above)
-            new Vector2(0, 0), // point in line about which to rotate
-            SpriteEffects.None,
-            0);
+            sb.Draw(line, new Rectangle((int)start.X, (int)start.Y, (int)edge.Length(), 5),null,Color.Black, angle, new Vector2(0, 0), SpriteEffects.None, 0);
 
 
         }

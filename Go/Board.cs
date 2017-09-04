@@ -14,13 +14,21 @@ namespace Go
         private List<Player> lstPlayers;
         private List<Line> lstLines;
 
-        private int iLength;
+        private int iSizeBoard;
+        private int iLengthBoard;
         private int iSeperateLine;
 
         public Board(int length)
         {
-            iLength = length;
-            iSeperateLine = MainGame.windowsHeight / (length-1);
+
+            iSizeBoard = MainGame.windowsHeight - 200;
+            Ressource.SetBoard();
+            
+
+
+            iLengthBoard = length;
+
+            iSeperateLine = iSizeBoard / (length-1);
             lstLines = new List<Line>();
             InitialiseLines();
 
@@ -32,10 +40,11 @@ namespace Go
         }
         private void InitialiseLines ()
         {
-            for(int i=0; i<iLength;i++)
+            for(int i=0; i< iLengthBoard; i++)
             {
-                lstLines.Add(new Line(0, MainGame.windowsWidth, i*iSeperateLine, i*iSeperateLine));
-                lstLines.Add(new Line(i*iSeperateLine, i*iSeperateLine,0,MainGame.windowsHeight));
+
+                lstLines.Add(new Line(20, iSizeBoard+20,20+i * iSeperateLine, 20 + i * iSeperateLine));
+                lstLines.Add(new Line(20+i*iSeperateLine, 20+i*iSeperateLine,20,iSizeBoard+20));
             }
         }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
@@ -47,7 +56,9 @@ namespace Go
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Ressource.GetBoard(),new Rectangle(20,20,iSizeBoard,iSizeBoard),Color.White);
             
+
 
            foreach(Line l in lstLines)
             {

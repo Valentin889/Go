@@ -4,6 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Go/Go/Content/goban1.png</File>
+    <File>D:/Go/Go/Go/Content/goban1.png</File>
   </SourceFiles>
 </SourceFileCollection>

@@ -11,7 +11,7 @@ namespace Go
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public const int windowsWidth = 1000;
+        public const int windowsWidth = 1300;
         public const int windowsHeight = 1000;
 
         private Board board;
@@ -49,8 +49,8 @@ namespace Go
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            board = new Board(19);
             Ressource.LoadContent(Content, GraphicsDevice);
+            board = new Board(9);
             // TODO: use this.Content to load your game content here
         }
 
