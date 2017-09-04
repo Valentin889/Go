@@ -11,10 +11,8 @@ namespace Go
 {
     public class Stone
     {
-        private int iPositionXTempory;
-        private int iPositionYTempory;
-        private int iPositionXDefinitive;
-        private int iPositionYDefinitive;
+        private int iPositionX;
+        private int iPositionY;
 
 
         private bool bDefinitivePosition;
@@ -28,20 +26,21 @@ namespace Go
             color = c;
 
         }
+
+
+        public bool DefinitivePosition
+        {
+            set
+            {
+                bDefinitivePosition = value;
+            }
+        }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            iPositionXTempory = mouseState.Position.X;
-            iPositionYTempory = mouseState.Position.Y;
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if(!bDefinitivePosition)
             {
-                bIsClick = true;
-                bDefinitivePosition = true;
-            }
-            if (bIsClick)
-            {
-                iPositionXDefinitive = mouseState.Position.X;
-                iPositionYDefinitive = mouseState.Position.Y;
-                bIsClick = false;
+                iPositionX = mouseState.Position.X;
+                iPositionY = mouseState.Position.Y;
             }
         }
 
@@ -50,11 +49,11 @@ namespace Go
         {
             get
             {
-                return iPositionXDefinitive;
+                return iPositionX;
             }
             set
             {
-                iPositionXDefinitive = value;
+                iPositionX = value;
             }
         }
 
@@ -62,23 +61,17 @@ namespace Go
         {
             get
             {
-                return iPositionYDefinitive;
+                return iPositionY;
             }
             set
             {
-                iPositionYDefinitive = value;
+                iPositionY = value;
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (bDefinitivePosition)
-            {
-                spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionXDefinitive, iPositionYDefinitive, 30, 30), Color.Black);
-            }
-            else
-            {
-                spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionXTempory, iPositionYTempory, 30, 30), Color.Black);
-            }
+                spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionX, iPositionY, 30, 30), Color.Black);
+            
         }
     }
 }

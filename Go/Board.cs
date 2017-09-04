@@ -65,14 +65,10 @@ namespace Go
                 l.Draw(spriteBatch);
             }
             
-
-
-            /*
             foreach (Player p in lstPlayers)
             {
                 p.Draw(spriteBatch);
             }
-            */
 
         }
        

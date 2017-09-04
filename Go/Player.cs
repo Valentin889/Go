@@ -22,11 +22,19 @@ namespace Go
             myColor = c;
         }
 
+
+
+       
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
             if(mouseState.LeftButton==ButtonState.Pressed)
             {
-                lstStones.Add(new Stone(myColor));
+
+                Stone s = new Stone(myColor);
+                s.PositionX = mouseState.Position.X;
+                s.PositionY = mouseState.Position.Y;
+                s.DefinitivePosition = true;
+                lstStones.Add(s);
             }
 
 
