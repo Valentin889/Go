@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/9x9.unity
-  isLoaded: 1
-  isActive: 1
