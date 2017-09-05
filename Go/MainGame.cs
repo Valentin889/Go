@@ -13,8 +13,7 @@ namespace Go
         SpriteBatch spriteBatch;
         public const int windowsWidth = 1300;
         public const int windowsHeight = 1000;
-
-        private Board board;
+        private MainGo go;
 
         public MainGame()
         {
@@ -50,7 +49,7 @@ namespace Go
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Ressource.LoadContent(Content, GraphicsDevice);
-            board = new Board(9);
+            go = new MainGo();
             // TODO: use this.Content to load your game content here
         }
 
@@ -73,7 +72,7 @@ namespace Go
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             IsMouseVisible = true;
-            board.Update(Mouse.GetState(), Keyboard.GetState());
+            go.Update(Mouse.GetState(), Keyboard.GetState());
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -89,7 +88,7 @@ namespace Go
 
             spriteBatch.Begin();
 
-            board.Draw(spriteBatch);
+            go.Draw(spriteBatch);
 
             spriteBatch.End();
 

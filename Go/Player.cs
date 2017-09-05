@@ -11,33 +11,41 @@ namespace Go
 {
     public class Player
     {
+        private MainGo parent;
         private List<Stone> lstStones;
         private Color myColor;
-
-
-        public Player(Color c)
+        Stone s;
+        public Player(Color c, MainGo Parent)
         {
+            parent = Parent;
             lstStones = new List<Stone>();
-            lstStones.Add(new Stone(Color.Black));
             myColor = c;
         }
 
 
-
+        public List<Stone> GetListStone
+        {
+            get
+            {
+                return lstStones;
+            }
+        }
        
+        public MainGo getParent()
+        {
+            return parent;
+        }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
             if(mouseState.LeftButton==ButtonState.Pressed)
             {
-
-                Stone s = new Stone(myColor);
+                s = new Stone(myColor, this);
+                
                 s.PositionX = mouseState.Position.X;
                 s.PositionY = mouseState.Position.Y;
                 s.DefinitivePosition = true;
                 lstStones.Add(s);
             }
-
-
 
             foreach (Stone s in lstStones)
             {

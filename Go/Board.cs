@@ -11,52 +11,54 @@ namespace Go
 {
     public class Board
     {
-        private List<Player> lstPlayers;
+        private MainGo parent;
+        private Rectangle hitbox;
+        
         private List<Line> lstLines;
+        
 
-        private int iSizeBoard;
-        private int iLengthBoard;
-        private int iSeperateLine;
 
-        public Board(int length)
+
+        public Board(MainGo Parent)
         {
-
-            iSizeBoard = MainGame.windowsHeight - 200;
-            Ressource.SetBoard();
+            parent = Parent;
+            
+            hitbox = new Rectangle(parent.GetBoardPositionX(), parent.GetBoardPositionY(), parent.GetSizeBoard(), parent.GetSizeBoard());
             
 
 
-            iLengthBoard = length;
 
-            iSeperateLine = iSizeBoard / (length-1);
+            Ressource.SetBoard();
+
+            
             lstLines = new List<Line>();
             InitialiseLines();
 
-            lstPlayers = new List<Player>();
-            lstPlayers.Add(new Player(Color.Black));
-            lstPlayers.Add(new Player(Color.White));
+            
 
 
         }
         private void InitialiseLines ()
         {
-            for(int i=0; i< iLengthBoard; i++)
+            
+            for(int i=0; i< parent.GetLengthBoard(); i++)
             {
-
-                lstLines.Add(new Line(20, iSizeBoard+20,20+i * iSeperateLine, 20 + i * iSeperateLine));
-                lstLines.Add(new Line(20+i*iSeperateLine, 20+i*iSeperateLine,20,iSizeBoard+20));
+                lstLines.Add(new Line(parent.GetBoardPositionX(), parent.GetSizeBoard() + parent.GetBoardPositionX(), parent.GetBoardPositionY() + i * parent.GetSeperateLine(), parent.GetBoardPositionY() + i * parent.GetSeperateLine()));
+                lstLines.Add(new Line(parent.GetBoardPositionX() + i * parent.GetSeperateLine(), parent.GetBoardPositionX() + i * parent.GetSeperateLine(), parent.GetBoardPositionY(), parent.GetSizeBoard() + parent.GetBoardPositionY()));
             }
+            
         }
+
+       
+
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            foreach(Player p in lstPlayers)
-            {
-                p.Update(mouseState,keyboardState);
-            }
+            
+           
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Ressource.GetBoard(),new Rectangle(20,20,iSizeBoard,iSizeBoard),Color.White);
+            spriteBatch.Draw(Ressource.GetBoard(),this.hitbox,Color.White);
             
 
 
@@ -65,10 +67,7 @@ namespace Go
                 l.Draw(spriteBatch);
             }
             
-            foreach (Player p in lstPlayers)
-            {
-                p.Draw(spriteBatch);
-            }
+          
 
         }
        
