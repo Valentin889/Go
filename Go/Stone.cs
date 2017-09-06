@@ -15,25 +15,14 @@ namespace Go
 
         private int iPositionX;
         private int iPositionY;
-        private bool bDefinitivePosition;
         private int iSize;
         private Color color;
 
         public Stone(Color c, Player player, int size)
         {
             parent = player;
-            bDefinitivePosition = false;
             color = c;
             iSize = size;
-        }
-
-
-        public bool DefinitivePosition
-        {
-            set
-            {
-                bDefinitivePosition = value;
-            }
         }
         public int PositionX
         {

@@ -73,6 +73,10 @@ namespace Go
         {
             return board;
         }
+        public Stone[][] getTabStone()
+        {
+            return tabStone;
+        }
         
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
@@ -82,10 +86,13 @@ namespace Go
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     lstPlayers[0].Update(mouseState, keyBoard);
-                    lstPlayers.Add(lstPlayers[0]);
-                    lstPlayers.Remove(lstPlayers[0]);
-                    FillTabStone();
-                    bStonePosed = true;
+                    if (!lstPlayers[0].GetStoneHere())
+                    {
+                        lstPlayers.Add(lstPlayers[0]);
+                        lstPlayers.Remove(lstPlayers[0]);
+                        FillTabStone();
+                        bStonePosed = true;
+                    }
                 }
             }
             else

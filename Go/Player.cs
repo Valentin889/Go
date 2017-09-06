@@ -15,11 +15,13 @@ namespace Go
         private List<Stone> lstStones;
         private Color myColor;
         Stone s;
+        bool bStoneHere;
         public Player(Color c, MainGo mainGo)
         {
             parent = mainGo;
             lstStones = new List<Stone>();
             myColor = c;
+            bStoneHere = false;
         }
 
 
@@ -34,6 +36,11 @@ namespace Go
         public MainGo getParent()
         {
             return parent;
+        }
+
+        public bool GetStoneHere()
+        {
+            return bStoneHere;
         }
 
         private bool Collision(Square s, MouseState mouseState)
@@ -66,6 +73,7 @@ namespace Go
         }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
+            bStoneHere = false;
             foreach (Square t in parent.GetBoard().GetSquare())
             {
                 if (Collision(t, mouseState))
@@ -74,8 +82,16 @@ namespace Go
                     s = new Stone(myColor, this, iSizeStone);
                     s.PositionX = t.GetPositionX();
                     s.PositionY = t.GetPositionY();
-                    s.DefinitivePosition = true;
-                    lstStones.Add(s);
+
+                    if (parent.getTabStone()[s.PositionX][s.PositionY] == null)
+                    {
+                        lstStones.Add(s);
+                    }
+                    else
+                    {
+                        bStoneHere = true;
+                    }
+
                 }
             }
         }
