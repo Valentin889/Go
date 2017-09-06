@@ -15,6 +15,9 @@ namespace Go
         private List<Player> lstPlayers;
         private Stone[][] tabStone;
 
+        private Button btnReturn;
+
+
         private bool bStonePosed;
         private const int lengthBoard = 9;
         private const int sizeBoard=MainGame.windowsHeight - 200;
@@ -26,6 +29,7 @@ namespace Go
         {
 
             board = new Board(this);
+            btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0,120,50,this);
             lstPlayers = new List<Player>();
             lstPlayers.Add(new Player(Color.Black,this));
             lstPlayers.Add(new Player(Color.White, this));
@@ -63,7 +67,7 @@ namespace Go
         {
             foreach(Player p in lstPlayers)
             {
-                foreach(Stone s in p.GetListStone)
+                foreach(Stone s in p.GetLstStone())
                 {
                     tabStone[s.PositionX][s.PositionY] = s;
                 }
@@ -77,21 +81,33 @@ namespace Go
         {
             return tabStone;
         }
+        public List<Player> GetLstPlayers()
+        {
+            return lstPlayers;
+        }
         
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
+            btnReturn.Update(mouseState);
+            if(btnReturn.getbtnReturnIsDelete())
+            {
+                lstPlayers.Add(lstPlayers[0]);
+                lstPlayers.Remove(lstPlayers[0]);
+            }
             board.Update(mouseState, keyBoard);
             if (!bStonePosed)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    lstPlayers[0].Update(mouseState, keyBoard);
-                    if (!lstPlayers[0].GetStoneHere())
+                    if (lstPlayers[0].Update(mouseState, keyBoard))
                     {
-                        lstPlayers.Add(lstPlayers[0]);
-                        lstPlayers.Remove(lstPlayers[0]);
-                        FillTabStone();
-                        bStonePosed = true;
+                        if (!lstPlayers[0].GetStoneHere())
+                        {
+                            lstPlayers.Add(lstPlayers[0]);
+                            lstPlayers.Remove(lstPlayers[0]);
+                            FillTabStone();
+                            bStonePosed = true;
+                        }
                     }
                 }
             }
@@ -111,6 +127,7 @@ namespace Go
             {
                 p.Draw(spriteBatch);
             }
+            btnReturn.Draw(spriteBatch);
         }
     }
 }

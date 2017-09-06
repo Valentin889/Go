@@ -16,6 +16,7 @@ namespace Go
         private static Texture2D square;
         private static Texture2D board;
         private static GraphicsDevice graphic;
+        private static Texture2D btnReturn;
 
         public static void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -27,7 +28,8 @@ namespace Go
             square = new Texture2D(graphic, 1, 1);
             //square.SetData<Color>(new Color[] { Color.White });
             line.SetData<Color>(new Color[] {Color.White});
-            
+            btnReturn = new Texture2D(graphic, 1, 1);
+            btnReturn.SetData<Color>(new Color[] { Color.White });
         }
         
 
@@ -50,6 +52,11 @@ namespace Go
             board = new Texture2D(graphic, 1,1);
             board.SetData<Color>(new Color[] { Color.White });
 
+        }
+
+        public static Texture2D GetBtnReturn()
+        {
+            return btnReturn;
         }
         private static Texture2D CreateCircle(int radius, GraphicsDevice graphicsDevice)
         {

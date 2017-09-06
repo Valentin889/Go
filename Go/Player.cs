@@ -25,12 +25,13 @@ namespace Go
         }
 
 
-        public List<Stone> GetListStone
+        public List<Stone> GetLstStone()
         {
-            get
-            {
-                return lstStones;
-            }
+             return lstStones;
+        }
+        public void SetListStone(List<Stone> newList)
+        {
+            lstStones = newList;
         }
        
         public MainGo getParent()
@@ -71,9 +72,10 @@ namespace Go
 
             return true;
         }
-        public void Update(MouseState mouseState, KeyboardState keyboardState)
+        public bool Update(MouseState mouseState, KeyboardState keyboardState)
         {
             bStoneHere = false;
+            int iCountStone = lstStones.Count();
             foreach (Square t in parent.GetBoard().GetSquare())
             {
                 if (Collision(t, mouseState))
@@ -93,6 +95,14 @@ namespace Go
                     }
 
                 }
+            }
+            if(iCountStone==lstStones.Count)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
         public void Draw(SpriteBatch spriteBatch)
