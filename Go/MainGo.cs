@@ -65,6 +65,13 @@ namespace Go
         }
         private void FillTabStone()
         {
+            for(int i=0;i<lengthBoard;i++)
+            {
+                for(int j=0; j<lengthBoard;j++)
+                {
+                    tabStone[i][j] = null;
+                }
+            }
             foreach(Player p in lstPlayers)
             {
                 foreach(Stone s in p.GetLstStone())
@@ -85,12 +92,68 @@ namespace Go
         {
             return lstPlayers;
         }
-        
+
+        private void SetDeadStones(Player p)
+        {
+            foreach (Stone s in p.GetLstStone())
+            {
+                s.IsAlive = false;
+                s.IsAlreadyVisit = false;
+            }
+
+            foreach (Stone s in p.GetLstStone())
+            {
+                s.IsAlive = IsCaptured(s,p.Color);
+            }
+            
+        }
+        private bool IsCaptured(Stone s,Color c)
+        {
+                bool bReturn = false;
+                s.IsAlreadyVisit = true;
+
+                int x = s.PositionX;
+                int y = s.PositionY;
+
+                int x1;
+                int y1;
+
+                for (int i = -1; i < 2; i++)
+                {
+                    for (int j = -1; j < 2; j++)
+                    {
+                        if (!bReturn)
+                        {
+                            if (i == 0 && j != 0 || j == 0 && i != 0)
+                            {
+                                x1 = x+i;
+                                y1 = y+j;
+                                if (x1 >= 0 && y1 >= 0 && x1 < lengthBoard && y1 < lengthBoard)
+                                {
+                                    if (tabStone[x1][y1] == null)
+                                    {
+                                        bReturn = true;
+                                    }
+                                    else
+                                    {
+                                        if (tabStone[x1][y1].Color == c && !tabStone[x1][y1].IsAlreadyVisit)
+                                        {
+                                            bReturn = IsCaptured(tabStone[x1][y1], c);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+            return bReturn;
+        }
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
             btnReturn.Update(mouseState);
             if(btnReturn.getbtnReturnIsDelete())
             {
+                FillTabStone();
                 lstPlayers.Add(lstPlayers[0]);
                 lstPlayers.Remove(lstPlayers[0]);
             }
@@ -107,6 +170,9 @@ namespace Go
                             lstPlayers.Remove(lstPlayers[0]);
                             FillTabStone();
                             bStonePosed = true;
+
+                            SetDeadStones(lstPlayers[0]);
+
                         }
                     }
                 }

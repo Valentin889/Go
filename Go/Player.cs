@@ -44,6 +44,14 @@ namespace Go
             return bStoneHere;
         }
 
+        public Color Color
+        {
+            get
+            {
+                return myColor;
+            }
+        }
+
         private bool Collision(Square s, MouseState mouseState)
         {
             

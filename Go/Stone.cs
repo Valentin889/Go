@@ -17,6 +17,8 @@ namespace Go
         private int iPositionY;
         private int iSize;
         private Color color;
+        private bool bIsAlive;
+        private bool bIsAlreadyVisit;
 
         public Stone(Color c, Player player, int size)
         {
@@ -46,6 +48,37 @@ namespace Go
                 iPositionY = value;
             }
         }
+        public bool IsAlive
+        {
+            get
+            {
+                return bIsAlive;
+            }
+            set
+            {
+                bIsAlive = value;
+            }
+        }
+        public bool IsAlreadyVisit
+        {
+            get
+            {
+                return bIsAlreadyVisit;
+            }
+            set
+            {
+                bIsAlreadyVisit = value;
+            }
+        }
+
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+        }
+
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
            
