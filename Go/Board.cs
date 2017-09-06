@@ -15,13 +15,13 @@ namespace Go
         private Rectangle hitbox;
         
         private List<Line> lstLines;
-        
+        private List<Square> lstSquare;
 
 
 
-        public Board(MainGo Parent)
+        public Board(MainGo mainGo)
         {
-            parent = Parent;
+            parent = mainGo;
             
             hitbox = new Rectangle(parent.GetBoardPositionX(), parent.GetBoardPositionY(), parent.GetSizeBoard(), parent.GetSizeBoard());
             
@@ -32,8 +32,9 @@ namespace Go
 
             
             lstLines = new List<Line>();
+            lstSquare = new List<Square>();
             InitialiseLines();
-
+            InitialiseSquare();
             
 
 
@@ -48,8 +49,23 @@ namespace Go
             }
             
         }
-
-       
+        private void InitialiseSquare()
+        {
+            for(int i=0; i<parent.GetLengthBoard();i++)
+            {
+                for(int j=0; j<parent.GetLengthBoard();j++)
+                {
+                    Square s = new Square(i, j, this);
+                    s.SetHitbox(parent.GetBoardPositionX() + i * parent.GetSeperateLine()-parent.GetSeperateLine()/2, parent.GetBoardPositionY() + j * parent.GetSeperateLine() - parent.GetSeperateLine() / 2, parent.GetSeperateLine()-2, parent.GetSeperateLine()-2);
+                    lstSquare.Add(s);    
+                
+                }
+            }
+        }
+        public List<Square> GetSquare()
+        {
+            return lstSquare;
+        }
 
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
@@ -66,7 +82,10 @@ namespace Go
             {
                 l.Draw(spriteBatch);
             }
-            
+            foreach(Square s in lstSquare)
+            {
+                s.Draw(spriteBatch);
+            }
           
 
         }

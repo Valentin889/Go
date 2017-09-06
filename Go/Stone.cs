@@ -16,14 +16,15 @@ namespace Go
         private int iPositionX;
         private int iPositionY;
         private bool bDefinitivePosition;
+        private int iSize;
         private Color color;
-        private int iSeperateLine;
 
-        public Stone(Color c, Player Parent)
+        public Stone(Color c, Player player, int size)
         {
-            parent = Parent;
+            parent = player;
             bDefinitivePosition = false;
             color = c;
+            iSize = size;
         }
 
 
@@ -58,19 +59,16 @@ namespace Go
         }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            if(!bDefinitivePosition)
-            {
-               // iPositionX = mouseState.Position.X;
-               // iPositionY = mouseState.Position.Y;
-            }
+           
         }
 
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionX, iPositionY, 30, 30), Color.Black);
-            
+            int i = parent.getParent().GetSeperateLine();
+            int j = parent.getParent().GetBoardPositionX();
+            spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionX*parent.getParent().GetSeperateLine() +parent.getParent().GetBoardPositionX()-iSize/2, iPositionY*parent.getParent().GetSeperateLine()+parent.getParent().GetBoardPositionY()-iSize / 2, iSize, iSize), Color.Black);
         }
     }
 }

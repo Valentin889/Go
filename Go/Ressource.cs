@@ -11,27 +11,25 @@ namespace Go
 {
     public class Ressource
     {
-        private static Texture2D goban1;
         private static Texture2D stone;
         private static Texture2D line;
+        private static Texture2D square;
         private static Texture2D board;
         private static GraphicsDevice graphic;
 
         public static void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
         {
             graphic = graphicsDevice;
+            
 
-            goban1 = Content.Load<Texture2D>("goban1");
             stone = CreateCircle(30, graphic);
             line = new Texture2D(graphic, 1, 1);
+            square = new Texture2D(graphic, 1, 1);
+            //square.SetData<Color>(new Color[] { Color.White });
             line.SetData<Color>(new Color[] {Color.White});
             
         }
-
-        public static Texture2D GetGoban1()
-        {
-            return goban1;
-        }
+        
 
         public static Texture2D GetStone()
         {
@@ -41,6 +39,11 @@ namespace Go
         public static Texture2D GetBoard()
         {
             return board;
+        }
+
+        public static Texture2D GetSquare()
+        {
+            return square;
         }
         public static void SetBoard()
         {

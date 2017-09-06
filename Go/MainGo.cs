@@ -18,8 +18,8 @@ namespace Go
         private const int lengthBoard = 9;
         private const int sizeBoard=MainGame.windowsHeight - 200;
         private const int seperateLine= sizeBoard / (lengthBoard - 1);
-        private const int boardPositionX = 20;
-        private const int boardPositionY = 20;
+        private const int boardPositionX = 150;
+        private const int boardPositionY = 120;
 
         public MainGo()
         {
@@ -67,7 +67,10 @@ namespace Go
                 }
             }
         }
-
+         public Board GetBoard()
+        {
+            return board;
+        }
         
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {

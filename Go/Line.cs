@@ -22,10 +22,6 @@ namespace Go
             iEndX = ienx;
             iEndY = ieny;
         }
-        public void Update(MouseState mouseState, KeyboardState keyboardState)
-        {
-            
-        }
         public void Draw(SpriteBatch spriteBatch)
         {
             Ressource.CreateLine(spriteBatch, new Vector2(iStartX,iStartY), new Vector2(iEndX, iEndY));
