@@ -15,6 +15,7 @@ namespace Go
         private List<Player> lstPlayers;
         private Stone[][] tabStone;
 
+        private bool bStonePosed;
         private const int lengthBoard = 9;
         private const int sizeBoard=MainGame.windowsHeight - 200;
         private const int seperateLine= sizeBoard / (lengthBoard - 1);
@@ -34,6 +35,7 @@ namespace Go
             {
                 tabStone[i] = new Stone[lengthBoard];
             }
+            bStonePosed = false;
         }
 
         public int GetLengthBoard()
@@ -75,10 +77,25 @@ namespace Go
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
             board.Update(mouseState, keyBoard);
-            foreach(Player p in lstPlayers)
+            if (!bStonePosed)
             {
-                p.Update(mouseState, keyBoard);
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    lstPlayers[0].Update(mouseState, keyBoard);
+                    lstPlayers.Add(lstPlayers[0]);
+                    lstPlayers.Remove(lstPlayers[0]);
+                    FillTabStone();
+                    bStonePosed = true;
+                }
             }
+            else
+            {
+                if(mouseState.LeftButton==ButtonState.Released)
+                {
+                    bStonePosed = false;
+                }
+            }
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {

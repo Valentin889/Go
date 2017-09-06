@@ -68,7 +68,7 @@ namespace Go
         {
             int i = parent.getParent().GetSeperateLine();
             int j = parent.getParent().GetBoardPositionX();
-            spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionX*parent.getParent().GetSeperateLine() +parent.getParent().GetBoardPositionX()-iSize/2, iPositionY*parent.getParent().GetSeperateLine()+parent.getParent().GetBoardPositionY()-iSize / 2, iSize, iSize), Color.Black);
+            spriteBatch.Draw(Ressource.GetStone(), new Rectangle(iPositionX*parent.getParent().GetSeperateLine() +parent.getParent().GetBoardPositionX()-iSize/2, iPositionY*parent.getParent().GetSeperateLine()+parent.getParent().GetBoardPositionY()-iSize / 2, iSize, iSize), color);
         }
     }
 }

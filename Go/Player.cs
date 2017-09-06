@@ -66,27 +66,17 @@ namespace Go
         }
         public void Update(MouseState mouseState, KeyboardState keyboardState)
         {
-            if(mouseState.LeftButton==ButtonState.Pressed)
+            foreach (Square t in parent.GetBoard().GetSquare())
             {
-                foreach (Square t in parent.GetBoard().GetSquare())
+                if (Collision(t, mouseState))
                 {
-                    if (Collision(t, mouseState))
-                    {
-                        int iSizeStone = t.GetHitbox().Width / 2;
-                        s = new Stone(myColor, this,iSizeStone);
-                        s.PositionX = t.GetPositionX();
-                        s.PositionY = t.GetPositionY();
-                        s.DefinitivePosition = true;
-                        lstStones.Add(s);
-                    }
+                    int iSizeStone = t.GetHitbox().Width / 2;
+                    s = new Stone(myColor, this, iSizeStone);
+                    s.PositionX = t.GetPositionX();
+                    s.PositionY = t.GetPositionY();
+                    s.DefinitivePosition = true;
+                    lstStones.Add(s);
                 }
-               
-
-            }
-
-            foreach (Stone s in lstStones)
-            {
-                s.Update(mouseState, keyboardState);
             }
         }
         public void Draw(SpriteBatch spriteBatch)
