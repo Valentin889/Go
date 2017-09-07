@@ -103,6 +103,10 @@ namespace Go
 
             foreach (Stone s in p.GetLstStone())
             {
+                foreach(Stone s1 in p.GetLstStone())
+                {
+                    s1.IsAlreadyVisit = false;
+                }
                 s.IsAlive = IsCaptured(s,p.Color);
             }
             
@@ -172,14 +176,52 @@ namespace Go
                             bStonePosed = true;
 
                             SetDeadStones(lstPlayers[0]);
+                            List<Stone> deadStone = new List<Stone>();
+                            foreach (Stone s in lstPlayers[0].GetLstStone())
+                            {
+                                if (!s.IsAlive)
+                                {
+                                    deadStone.Add(s);
+                                }
+                            }
+                            List<Stone> newList = lstPlayers[0].GetLstStone();
+                            foreach (Stone s in deadStone)
+                            {
+                                newList.Remove(s);
+                            }
+                            lstPlayers[0].SetListStone(newList);
+                            FillTabStone();
 
+
+                            SetDeadStones(lstPlayers[1]);
+                            bool b = false;
+                            foreach (Stone s in lstPlayers[1].GetLstStone())
+                            {
+                                if (!s.IsAlive)
+                                {
+                                    b = true;
+                                }
+                            }
+                            if (b)
+                            {
+                                Stone s = lstPlayers[1].GetLstStone()[lstPlayers[1].GetLstStone().Count - 1];
+                                newList = lstPlayers[1].GetLstStone();
+                                newList.Remove(s);
+                                lstPlayers.Add(lstPlayers[0]);
+                                lstPlayers.Remove(lstPlayers[0]);
+                                FillTabStone();
+                            }
+                            
                         }
+
+
+
                     }
                 }
             }
             else
             {
-                if(mouseState.LeftButton==ButtonState.Released)
+                if (mouseState.LeftButton == ButtonState.Released)
                 {
                     bStonePosed = false;
                 }
