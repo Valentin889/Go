@@ -11,7 +11,7 @@ namespace Go
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public const int windowsWidth = 1300;
+        public const int windowsWidth = 1700;
         public const int windowsHeight = 1000;
         private MainGo go;
 

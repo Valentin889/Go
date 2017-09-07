@@ -12,6 +12,10 @@ namespace Go
     public class MainGo
     {
         private Board board;
+
+
+        private MainGo oldGame;
+
         private List<Player> lstPlayers;
         private Stone[][] tabStone;
 
@@ -41,7 +45,66 @@ namespace Go
             }
             bStonePosed = false;
         }
+        public MainGo OldGame
+        {
+            get
+            {
+                return oldGame;
+            }
+            set
+            {
+                oldGame = value;
+            }
+        }
+        public MainGo Clone()
+        {
+            MainGo returnMainGo = new MainGo();
 
+            returnMainGo.board = this.board.Clone();
+            returnMainGo.lstPlayers = new List<Player>();
+            foreach(Player p in this.lstPlayers)
+            {
+                returnMainGo.lstPlayers.Add(p.Clone());
+            }
+            returnMainGo.tabStone = new Stone[this.GetLengthBoard()][];
+            for (int i = 0; i < this.GetLengthBoard(); i++)
+            {
+                returnMainGo.tabStone[i] = new Stone[this.GetLengthBoard()];
+                
+            }
+            returnMainGo.btnReturn = this.btnReturn;
+            returnMainGo.bStonePosed = this.bStonePosed;
+            returnMainGo.FillTabStone();
+
+            if (this.oldGame != null)
+            {
+                returnMainGo.oldGame = this.oldGame.Clone();
+            }
+            return returnMainGo;
+        }
+
+        private void CopyOldGame()
+        {
+            
+            this.board = oldGame.board.Clone();
+            this.lstPlayers = new List<Player>();
+            foreach(Player p in oldGame.lstPlayers)
+            {
+                this.lstPlayers.Add(p.Clone());
+            }
+            this.tabStone = new Stone[this.GetLengthBoard()][];
+
+            for (int i = 0; i < this.GetLengthBoard(); i++)
+            {
+                this.tabStone[i] = new Stone[this.GetLengthBoard()];
+            }
+            this.bStonePosed = oldGame.bStonePosed;
+            this.FillTabStone();
+            if (oldGame.oldGame != null)
+            {
+                this.oldGame = oldGame.oldGame.Clone();
+            }
+        }
         public int GetLengthBoard()
         {
             return lengthBoard;
@@ -157,9 +220,7 @@ namespace Go
             btnReturn.Update(mouseState);
             if(btnReturn.getbtnReturnIsDelete())
             {
-                FillTabStone();
-                lstPlayers.Add(lstPlayers[0]);
-                lstPlayers.Remove(lstPlayers[0]);
+                this.CopyOldGame();
             }
             board.Update(mouseState, keyBoard);
             if (!bStonePosed)

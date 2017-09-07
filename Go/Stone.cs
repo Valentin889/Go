@@ -26,6 +26,18 @@ namespace Go
             color = c;
             iSize = size;
         }
+
+        public Stone Clone()
+        {
+            Stone returnStone = new Stone(this.color, this.parent, this.iSize);
+            returnStone.iPositionX = this.PositionX;
+            returnStone.PositionY = this.iPositionY;
+            returnStone.IsAlive = this.IsAlive;
+            returnStone.IsAlreadyVisit = this.IsAlreadyVisit;
+
+
+            return returnStone;
+        }
         public int PositionX
         {
             get

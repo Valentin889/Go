@@ -17,16 +17,11 @@ namespace Go
         private List<Line> lstLines;
         private List<Square> lstSquare;
 
-
-
+        
         public Board(MainGo mainGo)
         {
             parent = mainGo;
-            
             hitbox = new Rectangle(parent.GetBoardPositionX(), parent.GetBoardPositionY(), parent.GetSizeBoard(), parent.GetSizeBoard());
-            
-
-
 
             Ressource.SetBoard();
 
@@ -35,8 +30,27 @@ namespace Go
             lstSquare = new List<Square>();
             InitialiseLines();
             InitialiseSquare();
-            
 
+        }
+
+        public Board Clone()
+        {
+            Board boardReturn = new Board(this.parent);
+            boardReturn.hitbox = this.hitbox;
+            boardReturn.lstLines = new List<Line>();
+            foreach (Line l in lstLines)
+            {
+                boardReturn.lstLines.Add(l.Clone());
+            }
+
+
+            boardReturn.lstSquare = new List<Square>();
+            foreach(Square s in lstSquare)
+            {
+                boardReturn.lstSquare.Add(s.Clone());
+            }
+
+            return boardReturn;
 
         }
         private void InitialiseLines ()

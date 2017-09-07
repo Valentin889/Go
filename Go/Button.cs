@@ -50,6 +50,7 @@ namespace Go
             this.parent = mainGo;
             this.bBtnReturnIsDelete = false;
             this.bIsStoneDelete = false;
+            this.parent = mainGo;
         }
 
        
@@ -78,13 +79,6 @@ namespace Go
                     switch (iId)
                     {
                         case 0:
-
-
-                            int icount = parent.GetLstPlayers()[1].GetLstStone().Count;
-                            Stone remStone = parent.GetLstPlayers()[1].GetLstStone()[icount - 1];
-                            List<Stone> newList = parent.GetLstPlayers()[1].GetLstStone();
-                            newList.Remove(remStone);
-                            parent.GetLstPlayers()[1].SetListStone(newList);
                             bBtnReturnIsDelete = true;
                             bIsStoneDelete = true;
                             break;

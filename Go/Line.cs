@@ -22,6 +22,12 @@ namespace Go
             iEndX = ienx;
             iEndY = ieny;
         }
+
+        public Line Clone()
+        {
+            Line returnLine = new Line(this.iStartX,this.iEndX,iStartY,iEndY);
+            return returnLine;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             Ressource.CreateLine(spriteBatch, new Vector2(iStartX,iStartY), new Vector2(iEndX, iEndY));

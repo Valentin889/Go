@@ -26,6 +26,15 @@ namespace Go
             hitbox = new Rectangle(x, y, width, heigth);
         }
 
+        public Square Clone()
+        {
+            Square returnSquare = new Square(this.hitbox.X, this.hitbox.Y, parent);
+            returnSquare.hitbox = this.hitbox;
+            returnSquare.iPositionX = this.iPositionX;
+            returnSquare.iPositionY = this.iPositionY;
+            return returnSquare;
+        }
+
         public Rectangle GetHitbox()
         {
             return hitbox;

@@ -34,6 +34,21 @@ namespace Go
             lstStones = newList;
         }
        
+
+        public Player Clone()
+        {
+            Player returnplayer = new Player(this.Color, this.parent);
+
+            returnplayer.lstStones = new List<Stone>();
+            foreach(Stone s in this.lstStones)
+            {
+                returnplayer.lstStones.Add(s.Clone());
+            }
+
+
+            return returnplayer;
+        }
+
         public MainGo getParent()
         {
             return parent;
@@ -95,6 +110,7 @@ namespace Go
 
                     if (parent.getTabStone()[s.PositionX][s.PositionY] == null)
                     {
+                        parent.OldGame = parent.Clone();
                         lstStones.Add(s);
                     }
                     else
