@@ -36,6 +36,7 @@ namespace Go
             returnStone.IsAlreadyVisit = this.IsAlreadyVisit;
 
 
+
             return returnStone;
         }
         public int PositionX

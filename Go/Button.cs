@@ -21,6 +21,9 @@ namespace Go
         private MainGo parent;
         private bool bBtnReturnIsDelete;
         private bool bIsStoneDelete;
+        private bool bBtnIsPass;
+        private bool bIsPass;
+        private int iCountClickPass;
 
         public int ButtonX
         {
@@ -51,10 +54,12 @@ namespace Go
             this.bBtnReturnIsDelete = false;
             this.bIsStoneDelete = false;
             this.parent = mainGo;
+            this.bBtnIsPass = false;
+            this.iCountClickPass = 0;
         }
 
        
-        public bool enterButton(MouseState mouseState)
+        public bool EnterButton(MouseState mouseState)
         {
             if (mouseState.X < buttonX + iSizeX &&
                     mouseState.X > buttonX &&
@@ -65,41 +70,76 @@ namespace Go
             }
             return false;
         }
-        public bool getbtnReturnIsDelete()
+        public bool GetbtnReturnIsDelete()
         {
             return bBtnReturnIsDelete;
+        }
+        public bool GetbtnPassIsPass()
+        {
+            return bBtnIsPass;
+        }
+        public int CountClickPass
+        {
+            get
+            {
+                return iCountClickPass;
+            }
+            set
+            {
+                iCountClickPass = value;
+            }
         }
         public void Update(MouseState mouseState)
         {
             bBtnReturnIsDelete = false;
-            if (!bIsStoneDelete)
+            bBtnIsPass = false;
+            if (EnterButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
             {
-                if (enterButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
+                switch (iId)
                 {
-                    switch (iId)
-                    {
-                        case 0:
+                    case 0:
+                        if (!bIsStoneDelete)
+                        {
                             bBtnReturnIsDelete = true;
                             bIsStoneDelete = true;
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    case 1:
+                        if (!bIsPass)
+                        {
+                            bIsPass = true;
+                            bBtnIsPass = true;
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
             else
             {
-                if(mouseState.LeftButton==ButtonState.Released)
+                if (mouseState.LeftButton == ButtonState.Released)
                 {
                     bIsStoneDelete = false;
+                    bIsPass = false;
                 }
             }
 
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            texture.Name = "salut";
+          
             spriteBatch.Draw(texture, new Rectangle((int)ButtonX, (int)ButtonY, iSizeX, iSizeY), Color.White);
+
+            switch(iId)
+            {
+                case 0:
+                    spriteBatch.DrawString(Ressource.GetBtnReturntext(), "revenir en arriere ", new Vector2(buttonX,ButtonY), Color.Black);
+                    break;
+                case 1:
+                    spriteBatch.DrawString(Ressource.GetBtnpassText(), "Passer", new Vector2(buttonX, buttonY), Color.Black);
+                    break;
+            }
+
         }
     }
 }

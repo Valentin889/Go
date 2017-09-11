@@ -73,3 +73,5 @@ D:\Go\Go\Go\obj\x86\Debug\Go.csprojResolveAssemblyReference.cache
 D:\Go\Go\Go\obj\x86\Debug\Go.csproj.CoreCompileInputs.cache
 D:\Go\Go\Go\obj\x86\Debug\Go.exe
 D:\Go\Go\Go\obj\x86\Debug\Go.pdb
+D:\Go\Go\Go\bin\Windows\x86\Debug\Content\btnReturn.xnb
+D:\Go\Go\Go\bin\Windows\x86\Debug\Content\btnPass.xnb

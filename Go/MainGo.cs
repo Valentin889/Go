@@ -20,20 +20,27 @@ namespace Go
         private Stone[][] tabStone;
 
         private Button btnReturn;
+        private Button btnPass;
 
 
         private bool bStonePosed;
-        private const int lengthBoard = 9;
+        private const int lengthBoard = 19;
         private const int sizeBoard=MainGame.windowsHeight - 200;
         private const int seperateLine= sizeBoard / (lengthBoard - 1);
         private const int boardPositionX = 150;
         private const int boardPositionY = 120;
+        private const int btnSizeX = 120;
+        private const int btnSizeY = 50;
+
 
         public MainGo()
         {
 
             board = new Board(this);
-            btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0,120,50,this);
+            btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0, btnSizeX, btnSizeY, this);
+            btnPass = new Button("pass", Ressource.getBtnPass(), 10, 200, 1, btnSizeX, btnSizeY, this);
+
+
             lstPlayers = new List<Player>();
             lstPlayers.Add(new Player(Color.Black,this));
             lstPlayers.Add(new Player(Color.White, this));
@@ -85,24 +92,30 @@ namespace Go
 
         private void CopyOldGame()
         {
-            
-            this.board = oldGame.board.Clone();
-            this.lstPlayers = new List<Player>();
-            foreach(Player p in oldGame.lstPlayers)
+            try
             {
-                this.lstPlayers.Add(p.Clone());
-            }
-            this.tabStone = new Stone[this.GetLengthBoard()][];
+                this.board = oldGame.board.Clone();
+                this.lstPlayers = new List<Player>();
+                foreach (Player p in oldGame.lstPlayers)
+                {
+                    this.lstPlayers.Add(p.Clone());
+                }
+                this.tabStone = new Stone[this.GetLengthBoard()][];
 
-            for (int i = 0; i < this.GetLengthBoard(); i++)
-            {
-                this.tabStone[i] = new Stone[this.GetLengthBoard()];
+                for (int i = 0; i < this.GetLengthBoard(); i++)
+                {
+                    this.tabStone[i] = new Stone[this.GetLengthBoard()];
+                }
+                this.bStonePosed = oldGame.bStonePosed;
+                this.FillTabStone();
+                if (oldGame.oldGame != null)
+                {
+                    this.oldGame = oldGame.oldGame.Clone();
+                }
             }
-            this.bStonePosed = oldGame.bStonePosed;
-            this.FillTabStone();
-            if (oldGame.oldGame != null)
+            catch
             {
-                this.oldGame = oldGame.oldGame.Clone();
+
             }
         }
         public int GetLengthBoard()
@@ -218,9 +231,20 @@ namespace Go
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
             btnReturn.Update(mouseState);
-            if(btnReturn.getbtnReturnIsDelete())
+            if (btnReturn.GetbtnReturnIsDelete())
             {
                 this.CopyOldGame();
+            }
+            btnPass.Update(mouseState);
+            if (btnPass.GetbtnPassIsPass())
+            {
+                lstPlayers.Add(lstPlayers[0]);
+                lstPlayers.Remove(lstPlayers[0]);
+                btnPass.CountClickPass++;
+                if(btnPass.CountClickPass==2)
+                {
+                    //enclenchement de la procédure de fin de partie
+                }
             }
             board.Update(mouseState, keyBoard);
             if (!bStonePosed)
@@ -231,6 +255,7 @@ namespace Go
                     {
                         if (!lstPlayers[0].GetStoneHere())
                         {
+                            btnPass.CountClickPass = 0;
                             lstPlayers.Add(lstPlayers[0]);
                             lstPlayers.Remove(lstPlayers[0]);
                             FillTabStone();
@@ -272,7 +297,7 @@ namespace Go
                                 lstPlayers.Remove(lstPlayers[0]);
                                 FillTabStone();
                             }
-                            
+
                         }
 
 
@@ -287,7 +312,6 @@ namespace Go
                     bStonePosed = false;
                 }
             }
-            
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -297,6 +321,7 @@ namespace Go
                 p.Draw(spriteBatch);
             }
             btnReturn.Draw(spriteBatch);
+            btnPass.Draw(spriteBatch);
         }
     }
 }

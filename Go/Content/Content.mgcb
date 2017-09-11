@@ -25,3 +25,17 @@
 /processorParam:TextureFormat=Color
 /build:goban1.png
 
+#begin btnReturn.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:btnReturn.spritefont
+
+#begin btnPass.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:btnPass.spritefont
+
