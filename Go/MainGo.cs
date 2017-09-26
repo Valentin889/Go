@@ -18,14 +18,15 @@ namespace Go
 
         private List<Player> lstPlayers;
         private Stone[][] tabStone;
+        private int iCountMove;
 
         private Button btnReturn;
         private Button btnPass;
 
 
         private bool bStonePosed;
-        private const int lengthBoard = 19;
-        private const int sizeBoard=MainGame.windowsHeight - 200;
+        private const int lengthBoard = 7;
+        private const int sizeBoard=   MainGame.windowsHeight - 200;
         private const int seperateLine= sizeBoard / (lengthBoard - 1);
         private const int boardPositionX = 150;
         private const int boardPositionY = 120;
@@ -38,7 +39,7 @@ namespace Go
 
             board = new Board(this);
             btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0, btnSizeX, btnSizeY, this);
-            btnPass = new Button("pass", Ressource.getBtnPass(), 10, 200, 1, btnSizeX, btnSizeY, this);
+            btnPass = new Button("pass", Ressource.GetBtnPass(), 10, 200, 1, btnSizeX, btnSizeY, this);
 
 
             lstPlayers = new List<Player>();
@@ -51,6 +52,7 @@ namespace Go
                 tabStone[i] = new Stone[lengthBoard];
             }
             bStonePosed = false;
+            iCountMove = 0;
         }
         public MainGo OldGame
         {
@@ -87,9 +89,28 @@ namespace Go
             {
                 returnMainGo.oldGame = this.oldGame.Clone();
             }
+            returnMainGo.iCountMove = this.iCountMove;
             return returnMainGo;
         }
 
+        private bool CompareThisAndOldGame()
+        {
+            
+            
+            for (int i = 0; i < lstPlayers.Count; i++)
+            {
+                if(lstPlayers[i].Color!=oldGame.oldGame.lstPlayers[i].Color)
+                {
+                    return false;
+                }
+                if(lstPlayers[i].GetLstStone().Count!=oldGame.oldGame.lstPlayers[i].GetLstStone().Count)
+                {
+                    return false;
+                }
+            }
+           
+            return true;
+        }
         private void CopyOldGame()
         {
             try
@@ -160,7 +181,7 @@ namespace Go
         {
             return board;
         }
-        public Stone[][] getTabStone()
+        public Stone[][] GetTabStone()
         {
             return tabStone;
         }
@@ -234,10 +255,12 @@ namespace Go
             if (btnReturn.GetbtnReturnIsDelete())
             {
                 this.CopyOldGame();
+                iCountMove--;
             }
             btnPass.Update(mouseState);
             if (btnPass.GetbtnPassIsPass())
             {
+                this.oldGame = this.Clone();
                 lstPlayers.Add(lstPlayers[0]);
                 lstPlayers.Remove(lstPlayers[0]);
                 btnPass.CountClickPass++;
@@ -255,6 +278,8 @@ namespace Go
                     {
                         if (!lstPlayers[0].GetStoneHere())
                         {
+
+                            iCountMove++;
                             btnPass.CountClickPass = 0;
                             lstPlayers.Add(lstPlayers[0]);
                             lstPlayers.Remove(lstPlayers[0]);
@@ -297,11 +322,15 @@ namespace Go
                                 lstPlayers.Remove(lstPlayers[0]);
                                 FillTabStone();
                             }
-
+                            if (iCountMove > 1)
+                            {
+                                if(CompareThisAndOldGame())
+                                {
+                                    this.CopyOldGame();
+                                    iCountMove--;
+                                }
+                            }
                         }
-
-
-
                     }
                 }
             }

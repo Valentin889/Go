@@ -21,6 +21,7 @@ namespace Go
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = windowsWidth;
             graphics.PreferredBackBufferHeight = windowsHeight;
+            graphics.IsFullScreen = false;
         }
 
         /// <summary>
@@ -47,7 +48,6 @@ namespace Go
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             Ressource.LoadContent(Content, GraphicsDevice);
             go = new MainGo();
             // TODO: use this.Content to load your game content here

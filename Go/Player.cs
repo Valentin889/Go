@@ -103,12 +103,12 @@ namespace Go
             {
                 if (Collision(t, mouseState))
                 {
-                    int iSizeStone = t.GetHitbox().Width / 2;
+                    int iSizeStone = t.GetHitbox().Width;
                     s = new Stone(myColor, this, iSizeStone);
                     s.PositionX = t.GetPositionX();
                     s.PositionY = t.GetPositionY();
 
-                    if (parent.getTabStone()[s.PositionX][s.PositionY] == null)
+                    if (parent.GetTabStone()[s.PositionX][s.PositionY] == null)
                     {
                         parent.OldGame = parent.Clone();
                         lstStones.Add(s);

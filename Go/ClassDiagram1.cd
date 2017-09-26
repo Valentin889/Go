@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Go.MainGame">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEEAAAAAAAwAAAAAQAAAAAAAAAAgAAAAAgAAAAAQ=</HashCode>
+      <FileName>MainGame.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="go" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Go.MainGo">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQBiACAwQAgAgBAgQAUUCAAAgAAACQAIAwQEAQIABA=</HashCode>
+      <FileName>MainGo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="board" />
+      <Field Name="btnPass" />
+      <Field Name="btnReturn" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="lstPlayers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Go.Player">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BASAAAAAAIAAAgBAAAIAAAAEAAgAAAAAAIAAoCAAABA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="lstStones" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Go.Point">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAgAgAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Point.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Go.Ressource">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEQCBAAkIAIAAIAAAAQAAAAAAARAAAAIAQQAAQAIAQ=</HashCode>
+      <FileName>Ressource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Go.Square">
+    <Position X="9.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAMAAQAACBAAgBEAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Square.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Go.Stone">
+    <Position X="9.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQMAAAAAAAAAoBgAAAAAAIIAAAAgACAAAAAgAAAABA=</HashCode>
+      <FileName>Stone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Go.Board">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAIAAAgBAAAAAAAAAAAAAAAABAACAgAAAABA=</HashCode>
+      <FileName>Board.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="lstLines" />
+      <Field Name="lstPoint" />
+      <Field Name="lstSquare" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Go.Button">
+    <Position X="4.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEQFAIAwABgJMAAAAEAAoAAAAAgAAIIAAAAAAAAA=</HashCode>
+      <FileName>Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Go.Line">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAAADABA=</HashCode>
+      <FileName>Line.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

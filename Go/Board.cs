@@ -16,7 +16,7 @@ namespace Go
         
         private List<Line> lstLines;
         private List<Square> lstSquare;
-
+        private List<Point> lstPoint;
         
         public Board(MainGo mainGo)
         {
@@ -28,9 +28,11 @@ namespace Go
             
             lstLines = new List<Line>();
             lstSquare = new List<Square>();
+            lstPoint = new List<Point>();
+
             InitialiseLines();
             InitialiseSquare();
-
+            InitialisePoint();
         }
 
         public Board Clone()
@@ -76,6 +78,33 @@ namespace Go
                 }
             }
         }
+
+        private void InitialisePoint()
+        {
+            
+            if (parent.GetLengthBoard() <= 9)
+            {
+                for (int i = 2; i < parent.GetLengthBoard()-2; i += parent.GetLengthBoard()-5)
+                {
+                    for (int j = 2; j < parent.GetLengthBoard()-2; j += parent.GetLengthBoard() - 5)
+                    {
+                        lstPoint.Add(new Point(i * parent.GetSeperateLine() + parent.GetBoardPositionX(), j * parent.GetSeperateLine() + parent.GetBoardPositionY(), lstSquare[0].GetHitbox().X / 5));
+                    }
+                }
+            }
+            else
+            {
+                int iInterval = (parent.GetLengthBoard() - 7) / 2;
+
+                for (int i = 3; i < parent.GetLengthBoard()-3; i+=iInterval)
+                {
+                    for (int j = 3; j < parent.GetLengthBoard() - 3; j += iInterval)
+                    {
+                        lstPoint.Add(new Point(i * parent.GetSeperateLine() + parent.GetBoardPositionX(), j * parent.GetSeperateLine() + parent.GetBoardPositionY(), lstSquare[0].GetHitbox().X / 5));
+                    }
+                }
+            }
+        }
         public List<Square> GetSquare()
         {
             return lstSquare;
@@ -101,7 +130,10 @@ namespace Go
                 s.Draw(spriteBatch);
             }
           
-
+            foreach(Point p in lstPoint)
+            {
+                p.Draw(spriteBatch);
+            }
         }
        
     }

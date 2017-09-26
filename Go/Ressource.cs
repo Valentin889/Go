@@ -67,7 +67,7 @@ namespace Go
             return btnReturn;
         }
 
-        public static Texture2D getBtnPass()
+        public static Texture2D GetBtnPass()
         {
             return btnPass;
         }
