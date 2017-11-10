@@ -12,7 +12,7 @@ namespace Go
     public class MainGo
     {
         private Board board;
-
+        
 
         private MainGo oldGame;
 
@@ -32,7 +32,8 @@ namespace Go
         private const int boardPositionY = 120;
         private const int btnSizeX = 120;
         private const int btnSizeY = 50;
-
+        private bool bIsOver;
+        private Color colorDeadStoneEndGame;
 
         public MainGo()
         {
@@ -52,6 +53,7 @@ namespace Go
                 tabStone[i] = new Stone[lengthBoard];
             }
             bStonePosed = false;
+            bIsOver = false;
             iCountMove = 0;
         }
         public MainGo OldGame
@@ -249,96 +251,238 @@ namespace Go
             }
             return bReturn;
         }
-        public void Update(MouseState mouseState, KeyboardState keyBoard)
+        private bool Collision(Square s, MouseState mouseState)
         {
-            btnReturn.Update(mouseState);
-            if (btnReturn.GetbtnReturnIsDelete())
+
+            //gauche
+            if (s.GetHitbox().X + s.GetHitbox().Width < mouseState.X)
             {
-                this.CopyOldGame();
-                iCountMove--;
+                return false;
             }
-            btnPass.Update(mouseState);
-            if (btnPass.GetbtnPassIsPass())
+            //droite
+            if (s.GetHitbox().X > mouseState.X)
             {
-                this.oldGame = this.Clone();
-                lstPlayers.Add(lstPlayers[0]);
-                lstPlayers.Remove(lstPlayers[0]);
-                btnPass.CountClickPass++;
-                if(btnPass.CountClickPass==2)
+                return false;
+            }
+
+            //haut
+            if (s.GetHitbox().Y + s.GetHitbox().Height < mouseState.Y)
+            {
+
+                return false;
+            }
+            //bas
+            if (s.GetHitbox().Y > mouseState.Y)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        private Square GetSquareInPosition(int x, int y)
+        {
+            Square square=null;
+            foreach(Square s in board.GetSquare())
+            {
+                if(s.GetPositionX()==x&&s.GetPositionY()==y)
                 {
-                    //enclenchement de la procédure de fin de partie
+                    square = s;
                 }
             }
-            board.Update(mouseState, keyBoard);
-            if (!bStonePosed)
+
+            return square;
+        }
+        private void SuppStoneEndGame(Square s)
+        {
+            if (!s.IsAlreadyVisit)
+            {
+                bool b = true;
+                s.IsAlreadyVisit = true;
+                Stone stone = tabStone[s.GetPositionX()][s.GetPositionY()];
+
+                if (stone != null)
+                {
+                    if (stone.Color == colorDeadStoneEndGame)
+                    {
+                        stone.IsAlive = false;
+                    }
+                    else
+                    {
+                        b = false;
+                    }
+                }
+                if (b)
+                {
+                    int x = s.GetPositionX() - 1;
+                    int y = s.GetPositionY();
+                    if (x >= 0)
+                    {
+                        Square square = GetSquareInPosition(x, y);
+                        SuppStoneEndGame(square);
+                    }
+                    x = s.GetPositionX() + 1;
+                    if (x < lengthBoard)
+                    {
+                        Square square = GetSquareInPosition(x, y);
+                        SuppStoneEndGame(square);
+                    }
+                    x = s.GetPositionX();
+                    y = s.GetPositionY() - 1;
+                    if (y >= 0)
+                    {
+                        Square square = GetSquareInPosition(x, y);
+                        SuppStoneEndGame(square);
+                    }
+                    y = s.GetPositionY() + 1;
+                    if (y < lengthBoard)
+                    {
+                        Square square = GetSquareInPosition(x, y);
+                        SuppStoneEndGame(square);
+                    }
+                }
+            }
+        }
+        public void Update(MouseState mouseState, KeyboardState keyBoard)
+        {
+            if (bIsOver)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (lstPlayers[0].Update(mouseState, keyBoard))
+                    foreach(Square s in board.GetSquare())
                     {
-                        if (!lstPlayers[0].GetStoneHere())
+                        if(Collision(s,mouseState))
                         {
-
-                            iCountMove++;
-                            btnPass.CountClickPass = 0;
-                            lstPlayers.Add(lstPlayers[0]);
-                            lstPlayers.Remove(lstPlayers[0]);
-                            FillTabStone();
-                            bStonePosed = true;
-
-                            SetDeadStones(lstPlayers[0]);
-                            List<Stone> deadStone = new List<Stone>();
-                            foreach (Stone s in lstPlayers[0].GetLstStone())
+                            if(tabStone[s.GetPositionX()][s.GetPositionY()]!=null)
                             {
-                                if (!s.IsAlive)
+                                colorDeadStoneEndGame = tabStone[s.GetPositionX()][s.GetPositionY()].Color;
+                                SuppStoneEndGame(s);
+                                List<Stone> deadStone = new List<Stone>();
+                                for (int i = 0; i < lengthBoard; i++)
                                 {
-                                    deadStone.Add(s);
+                                    for (int j = 0; j < lengthBoard; j++)
+                                    {
+                                        Stone stone = tabStone[i][j];
+                                        if(stone!=null)
+                                        {
+                                            if (!stone.IsAlive)
+                                            {
+                                                deadStone.Add(stone);
+                                            }
+                                        }
+                                    }
+                                }
+                                foreach(Player p in lstPlayers)
+                                {
+                                    if (p.Color == colorDeadStoneEndGame)
+                                    {
+                                        foreach (Stone stone in deadStone)
+                                        {
+                                            p.GetLstStone().Remove(stone);
+                                        }
+                                    }
+                                }
+                                FillTabStone();
+                                foreach(Square square in board.GetSquare())
+                                {
+                                    square.IsAlreadyVisit = false;
                                 }
                             }
-                            List<Stone> newList = lstPlayers[0].GetLstStone();
-                            foreach (Stone s in deadStone)
-                            {
-                                newList.Remove(s);
-                            }
-                            lstPlayers[0].SetListStone(newList);
-                            FillTabStone();
+                        }
+                    }
 
+                }
+            }
+            else
+            {
+                btnReturn.Update(mouseState);
+                if (btnReturn.GetbtnReturnIsDelete())
+                {
+                    this.CopyOldGame();
+                    iCountMove--;
+                }
+                btnPass.Update(mouseState);
+                if (btnPass.GetbtnPassIsPass())
+                {
+                    this.oldGame = this.Clone();
+                    lstPlayers.Add(lstPlayers[0]);
+                    lstPlayers.Remove(lstPlayers[0]);
+                    btnPass.CountClickPass++;
+                    if (btnPass.CountClickPass == 2)
+                    {
+                        bIsOver = true;
+                    }
+                }
+                board.Update(mouseState, keyBoard);
+                if (!bStonePosed)
+                {
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (lstPlayers[0].Update(mouseState, keyBoard))
+                        {
+                            if (!lstPlayers[0].GetStoneHere())
+                            {
 
-                            SetDeadStones(lstPlayers[1]);
-                            bool b = false;
-                            foreach (Stone s in lstPlayers[1].GetLstStone())
-                            {
-                                if (!s.IsAlive)
-                                {
-                                    b = true;
-                                }
-                            }
-                            if (b)
-                            {
-                                Stone s = lstPlayers[1].GetLstStone()[lstPlayers[1].GetLstStone().Count - 1];
-                                newList = lstPlayers[1].GetLstStone();
-                                newList.Remove(s);
+                                iCountMove++;
+                                btnPass.CountClickPass = 0;
                                 lstPlayers.Add(lstPlayers[0]);
                                 lstPlayers.Remove(lstPlayers[0]);
                                 FillTabStone();
-                            }
-                            if (iCountMove > 1)
-                            {
-                                if(CompareThisAndOldGame())
+                                bStonePosed = true;
+
+                                SetDeadStones(lstPlayers[0]);
+                                List<Stone> deadStone = new List<Stone>();
+                                foreach (Stone s in lstPlayers[0].GetLstStone())
                                 {
-                                    this.CopyOldGame();
-                                    iCountMove--;
+                                    if (!s.IsAlive)
+                                    {
+                                        deadStone.Add(s);
+                                    }
+                                }
+                                List<Stone> newList = lstPlayers[0].GetLstStone();
+                                foreach (Stone s in deadStone)
+                                {
+                                    newList.Remove(s);
+                                }
+                                lstPlayers[0].SetListStone(newList);
+                                FillTabStone();
+
+
+                                SetDeadStones(lstPlayers[1]);
+                                bool b = false;
+                                foreach (Stone s in lstPlayers[1].GetLstStone())
+                                {
+                                    if (!s.IsAlive)
+                                    {
+                                        b = true;
+                                    }
+                                }
+                                if (b)
+                                {
+                                    Stone s = lstPlayers[1].GetLstStone()[lstPlayers[1].GetLstStone().Count - 1];
+                                    newList = lstPlayers[1].GetLstStone();
+                                    newList.Remove(s);
+                                    lstPlayers.Add(lstPlayers[0]);
+                                    lstPlayers.Remove(lstPlayers[0]);
+                                    FillTabStone();
+                                }
+                                if (iCountMove > 1)
+                                {
+                                    if (CompareThisAndOldGame())
+                                    {
+                                        this.CopyOldGame();
+                                        iCountMove--;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                if (mouseState.LeftButton == ButtonState.Released)
+                else
                 {
-                    bStonePosed = false;
+                    if (mouseState.LeftButton == ButtonState.Released)
+                    {
+                        bStonePosed = false;
+                    }
                 }
             }
         }

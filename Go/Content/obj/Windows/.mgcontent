@@ -4,8 +4,8 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Go/Go/Go/Content/goban1.png</File>
-    <File>D:/Go/Go/Go/Content/btnReturn.spritefont</File>
-    <File>D:/Go/Go/Go/Content/btnPass.spritefont</File>
+    <File>D:/Go/Go/Content/goban1.png</File>
+    <File>D:/Go/Go/Content/btnReturn.spritefont</File>
+    <File>D:/Go/Go/Content/btnPass.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

@@ -14,12 +14,13 @@ namespace Go
         private Board parent;
         private int iPositionX;
         private int iPositionY;
+        private bool bIsAlreadyVisite;
         public Square(int x, int y, Board board)
         {
             iPositionX = x;
             iPositionY = y;
             parent = board;
-
+            bIsAlreadyVisite=false;
         }
         public void SetHitbox(int x, int y,int width, int heigth)
         {
@@ -46,6 +47,17 @@ namespace Go
         public int GetPositionY()
         {
             return iPositionY;
+        }
+        public bool IsAlreadyVisit
+        {
+            get
+            {
+                return bIsAlreadyVisite;
+            }
+            set
+            {
+                bIsAlreadyVisite = value;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
