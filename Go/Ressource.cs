@@ -18,9 +18,11 @@ namespace Go
         private static GraphicsDevice graphic;
         private static Texture2D btnReturn;
         private static Texture2D btnPass;
+        private static Texture2D btnEndGame;
 
         private static SpriteFont btnReturnText;
         private static SpriteFont btnpassText;
+        private static SpriteFont btnEndGameText;
 
         public static void LoadContent(ContentManager Content, GraphicsDevice graphicsDevice)
         {
@@ -35,9 +37,11 @@ namespace Go
             btnReturn.SetData<Color>(new Color[] { Color.White });
             btnPass = new Texture2D(graphic, 1, 1);
             btnPass.SetData<Color>(new Color[] { Color.White });
-           
+            btnEndGame = new Texture2D(graphic, 1, 1);
+            btnEndGame.SetData<Color>(new Color[] { Color.White });
             btnReturnText = Content.Load<SpriteFont>("btnReturn");
             btnpassText = Content.Load<SpriteFont>("btnPass");
+            btnEndGameText = Content.Load<SpriteFont>("btnEndGame");
         }
         
 
@@ -72,7 +76,10 @@ namespace Go
             return btnPass;
         }
 
-
+        public static Texture2D getBtnEndGame()
+        {
+            return btnEndGame;
+        }
 
         public static SpriteFont GetBtnReturntext()
         {
@@ -82,6 +89,11 @@ namespace Go
         public static SpriteFont GetBtnpassText()
         {
             return btnpassText;
+        }
+
+        public static SpriteFont GetBtnEndGameText()
+        {
+            return btnEndGameText;
         }
         private static Texture2D CreateCircle(int radius, GraphicsDevice graphicsDevice)
         {

@@ -105,7 +105,7 @@ namespace Go
                 }
             }
         }
-        public List<Square> GetSquare()
+        public List<Square> GetLstSquare()
         {
             return lstSquare;
         }

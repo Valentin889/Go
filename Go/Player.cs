@@ -16,12 +16,16 @@ namespace Go
         private Color myColor;
         Stone s;
         bool bStoneHere;
+        private int iCountTakenStone;
+        private int iCountPoints;
         public Player(Color c, MainGo mainGo)
         {
             parent = mainGo;
             lstStones = new List<Stone>();
             myColor = c;
             bStoneHere = false;
+            iCountTakenStone = 0;
+            iCountPoints = 0;
         }
 
 
@@ -33,7 +37,29 @@ namespace Go
         {
             lstStones = newList;
         }
-       
+       public int CountTakenStone
+        {
+            get
+            {
+                return iCountTakenStone;
+            }
+            set
+            {
+                iCountTakenStone = value;
+            }
+        }
+
+        public int CountPoint
+        {
+            get
+            {
+                return iCountPoints;
+            }
+            set
+            {
+                iCountPoints = value;
+            }
+        }
 
         public Player Clone()
         {
@@ -99,7 +125,7 @@ namespace Go
         {
             bStoneHere = false;
             int iCountStone = lstStones.Count();
-            foreach (Square t in parent.GetBoard().GetSquare())
+            foreach (Square t in parent.GetBoard().GetLstSquare())
             {
                 if (Collision(t, mouseState))
                 {

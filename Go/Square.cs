@@ -15,6 +15,7 @@ namespace Go
         private int iPositionX;
         private int iPositionY;
         private bool bIsAlreadyVisite;
+        private int iEndGameColor;
         public Square(int x, int y, Board board)
         {
             iPositionX = x;
@@ -59,7 +60,17 @@ namespace Go
                 bIsAlreadyVisite = value;
             }
         }
-
+        public int EndGameColor
+        {
+            get
+            {
+                return iEndGameColor;
+            }
+            set
+            {
+                iEndGameColor = value;
+            }
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Ressource.GetSquare(), this.hitbox, Color.Black);

@@ -23,6 +23,8 @@ namespace Go
         private bool bIsStoneDelete;
         private bool bBtnIsPass;
         private bool bIsPass;
+        private bool bBtnEndgame;
+        private bool bIsEndGame;
         private int iCountClickPass;
 
         public int ButtonX
@@ -56,6 +58,8 @@ namespace Go
             this.parent = mainGo;
             this.bBtnIsPass = false;
             this.iCountClickPass = 0;
+            this.bBtnEndgame = false;
+            this.bIsEndGame = false;
         }
 
        
@@ -78,6 +82,10 @@ namespace Go
         {
             return bBtnIsPass;
         }
+        public bool GetBtnIsEndGame()
+        {
+            return bBtnEndgame;
+        }
         public int CountClickPass
         {
             get
@@ -93,6 +101,7 @@ namespace Go
         {
             bBtnReturnIsDelete = false;
             bBtnIsPass = false;
+            bBtnEndgame = false;
             if (EnterButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
             {
                 switch (iId)
@@ -102,6 +111,7 @@ namespace Go
                         {
                             bBtnReturnIsDelete = true;
                             bIsStoneDelete = true;
+                            bBtnEndgame = true;
                         }
                         break;
                     case 1:
@@ -109,6 +119,15 @@ namespace Go
                         {
                             bIsPass = true;
                             bBtnIsPass = true;
+                            bBtnEndgame = true;
+                        }
+                        break;
+                    case 2:
+                        if(!bIsEndGame)
+                        {
+                            bBtnReturnIsDelete = true;
+                            bIsStoneDelete = true;
+                            bBtnEndgame = true;
                         }
                         break;
                     default:
@@ -121,6 +140,7 @@ namespace Go
                 {
                     bIsStoneDelete = false;
                     bIsPass = false;
+                    bIsEndGame = false;
                 }
             }
 
@@ -137,6 +157,9 @@ namespace Go
                     break;
                 case 1:
                     spriteBatch.DrawString(Ressource.GetBtnpassText(), "Passer", new Vector2(buttonX, buttonY), Color.Black);
+                    break;
+                case 2:
+                    spriteBatch.DrawString(Ressource.GetBtnpassText(), "fin du jeu?", new Vector2(buttonX, buttonY), Color.Black);
                     break;
             }
 

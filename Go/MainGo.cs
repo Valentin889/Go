@@ -22,7 +22,7 @@ namespace Go
 
         private Button btnReturn;
         private Button btnPass;
-
+        private Button btnEndGame;
 
         private bool bStonePosed;
         private const int lengthBoard = 7;
@@ -41,7 +41,7 @@ namespace Go
             board = new Board(this);
             btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0, btnSizeX, btnSizeY, this);
             btnPass = new Button("pass", Ressource.GetBtnPass(), 10, 200, 1, btnSizeX, btnSizeY, this);
-
+            btnEndGame = new Button("End",Ressource.getBtnEndGame(),10,300,2,btnSizeX,btnSizeY,this);
 
             lstPlayers = new List<Player>();
             lstPlayers.Add(new Player(Color.Black,this));
@@ -251,38 +251,44 @@ namespace Go
             }
             return bReturn;
         }
-        private bool Collision(Square s, MouseState mouseState)
+        private bool Collision(Object o, MouseState mouseState)
         {
-
-            //gauche
-            if (s.GetHitbox().X + s.GetHitbox().Width < mouseState.X)
+            if (o.GetType() == typeof(Square))
             {
-                return false;
-            }
-            //droite
-            if (s.GetHitbox().X > mouseState.X)
-            {
-                return false;
-            }
+                Square s = (Square)o;
+                //gauche
+                if (s.GetHitbox().X + s.GetHitbox().Width < mouseState.X)
+                {
+                    return false;
+                }
+                //droite
+                if (s.GetHitbox().X > mouseState.X)
+                {
+                    return false;
+                }
 
-            //haut
-            if (s.GetHitbox().Y + s.GetHitbox().Height < mouseState.Y)
-            {
+                //haut
+                if (s.GetHitbox().Y + s.GetHitbox().Height < mouseState.Y)
+                {
 
-                return false;
+                    return false;
+                }
+                //bas
+                if (s.GetHitbox().Y > mouseState.Y)
+                {
+                    return false;
+                }
             }
-            //bas
-            if (s.GetHitbox().Y > mouseState.Y)
+            else if(o.GetType()==typeof(Button))
             {
-                return false;
+                Button b = (Button)o;
             }
-
             return true;
         }
         private Square GetSquareInPosition(int x, int y)
         {
             Square square=null;
-            foreach(Square s in board.GetSquare())
+            foreach(Square s in board.GetLstSquare())
             {
                 if(s.GetPositionX()==x&&s.GetPositionY()==y)
                 {
@@ -342,54 +348,71 @@ namespace Go
                 }
             }
         }
+     
+
+        private void CountPointEndGame()
+        {
+           
+        }
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
             if (bIsOver)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    foreach(Square s in board.GetSquare())
+                    btnEndGame.Update(mouseState);
+                    if (btnEndGame.GetBtnIsEndGame())
                     {
-                        if(Collision(s,mouseState))
+                        CountPointEndGame();
+
+
+
+
+                    }
+                    else
+                    {
+                        foreach (Square s in board.GetLstSquare())
                         {
-                            if(tabStone[s.GetPositionX()][s.GetPositionY()]!=null)
+                            if (Collision(s, mouseState))
                             {
-                                colorDeadStoneEndGame = tabStone[s.GetPositionX()][s.GetPositionY()].Color;
-                                SuppStoneEndGame(s);
-                                List<Stone> deadStone = new List<Stone>();
-                                for (int i = 0; i < lengthBoard; i++)
+                                if (tabStone[s.GetPositionX()][s.GetPositionY()] != null)
                                 {
-                                    for (int j = 0; j < lengthBoard; j++)
+                                    colorDeadStoneEndGame = tabStone[s.GetPositionX()][s.GetPositionY()].Color;
+                                    SuppStoneEndGame(s);
+                                    List<Stone> deadStone = new List<Stone>();
+                                    for (int i = 0; i < lengthBoard; i++)
                                     {
-                                        Stone stone = tabStone[i][j];
-                                        if(stone!=null)
+                                        for (int j = 0; j < lengthBoard; j++)
                                         {
-                                            if (!stone.IsAlive)
+                                            Stone stone = tabStone[i][j];
+                                            if (stone != null)
                                             {
-                                                deadStone.Add(stone);
+                                                if (!stone.IsAlive)
+                                                {
+                                                    deadStone.Add(stone);
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                foreach(Player p in lstPlayers)
-                                {
-                                    if (p.Color == colorDeadStoneEndGame)
+                                    foreach (Player p in lstPlayers)
                                     {
-                                        foreach (Stone stone in deadStone)
+                                        if (p.Color == colorDeadStoneEndGame)
                                         {
-                                            p.GetLstStone().Remove(stone);
+                                            foreach (Stone stone in deadStone)
+                                            {
+                                                p.GetLstStone().Remove(stone);
+                                            }
                                         }
                                     }
-                                }
-                                FillTabStone();
-                                foreach(Square square in board.GetSquare())
-                                {
-                                    square.IsAlreadyVisit = false;
+                                    FillTabStone();
+                                    foreach (Square square in board.GetLstSquare())
+                                    {
+                                        square.IsAlreadyVisit = false;
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
             }
             else
@@ -436,6 +459,7 @@ namespace Go
                                     if (!s.IsAlive)
                                     {
                                         deadStone.Add(s);
+                                        lstPlayers[1].CountTakenStone++;
                                     }
                                 }
                                 List<Stone> newList = lstPlayers[0].GetLstStone();
@@ -495,6 +519,10 @@ namespace Go
             }
             btnReturn.Draw(spriteBatch);
             btnPass.Draw(spriteBatch);
+            if(bIsOver)
+            {
+                btnEndGame.Draw(spriteBatch);
+            }
         }
     }
 }

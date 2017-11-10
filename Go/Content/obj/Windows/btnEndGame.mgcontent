@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/Go/Go/Content/btnPass.spritefont</SourceFile>
-  <SourceTime>2017-11-10T13:58:42.0586706+01:00</SourceTime>
-  <DestFile>D:/Go/Go/Content/bin/Windows/btnPass.xnb</DestFile>
-  <DestTime>2017-11-10T14:00:44.7087682+01:00</DestTime>
+  <SourceFile>D:/Go/Go/Content/btnEndGame.spritefont</SourceFile>
+  <SourceTime>2017-03-01T16:05:30+01:00</SourceTime>
+  <DestFile>D:/Go/Go/Content/bin/Windows/btnEndGame.xnb</DestFile>
+  <DestTime>2017-11-10T14:11:14.9796863+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

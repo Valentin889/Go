@@ -7,5 +7,6 @@
     <File>D:/Go/Go/Content/goban1.png</File>
     <File>D:/Go/Go/Content/btnReturn.spritefont</File>
     <File>D:/Go/Go/Content/btnPass.spritefont</File>
+    <File>D:/Go/Go/Content/btnEndGame.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

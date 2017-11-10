@@ -77,3 +77,4 @@ D:\Go\Go\Go\bin\Windows\x86\Debug\Content\btnReturn.xnb
 D:\Go\Go\Go\bin\Windows\x86\Debug\Content\btnPass.xnb
 D:\Go\Go\bin\Windows\x86\Debug\Content\btnPass.xnb
 D:\Go\Go\bin\Windows\x86\Debug\Content\btnReturn.xnb
+D:\Go\Go\bin\Windows\x86\Debug\Content\btnEndGame.xnb

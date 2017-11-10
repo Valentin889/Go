@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>D:/Go/Go/Content/goban1.png</SourceFile>
-  <SourceTime>2017-11-07T08:12:26.0277032+01:00</SourceTime>
+  <SourceTime>2017-11-10T13:58:42.059683+01:00</SourceTime>
   <DestFile>D:/Go/Go/Content/bin/Windows/goban1.xnb</DestFile>
-  <DestTime>2017-11-07T09:00:19.7548545+01:00</DestTime>
+  <DestTime>2017-11-10T14:00:44.3650125+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
