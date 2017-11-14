@@ -16,9 +16,7 @@ namespace Go
         private static Texture2D square;
         private static Texture2D board;
         private static GraphicsDevice graphic;
-        private static Texture2D btnReturn;
-        private static Texture2D btnPass;
-        private static Texture2D btnEndGame;
+        private static Texture2D texBtnDefault;
 
         private static SpriteFont btnReturnText;
         private static SpriteFont btnpassText;
@@ -33,12 +31,8 @@ namespace Go
             line = new Texture2D(graphic, 1, 1);
             square = new Texture2D(graphic, 1, 1);
             line.SetData<Color>(new Color[] {Color.White});
-            btnReturn = new Texture2D(graphic, 1, 1);
-            btnReturn.SetData<Color>(new Color[] { Color.White });
-            btnPass = new Texture2D(graphic, 1, 1);
-            btnPass.SetData<Color>(new Color[] { Color.White });
-            btnEndGame = new Texture2D(graphic, 1, 1);
-            btnEndGame.SetData<Color>(new Color[] { Color.White });
+            texBtnDefault = new Texture2D(graphic, 1, 1);
+            texBtnDefault.SetData<Color>(new Color[] { Color.White });
             btnReturnText = Content.Load<SpriteFont>("btnReturn");
             btnpassText = Content.Load<SpriteFont>("btnPass");
             btnEndGameText = Content.Load<SpriteFont>("btnEndGame");
@@ -66,22 +60,16 @@ namespace Go
 
         }
 
-        public static Texture2D GetBtnReturn()
+        public static Texture2D GetTexBtnDefault()
         {
-            return btnReturn;
+            return texBtnDefault;
         }
 
-        public static Texture2D GetBtnPass()
-        {
-            return btnPass;
-        }
+       
 
-        public static Texture2D getBtnEndGame()
-        {
-            return btnEndGame;
-        }
+        
 
-        public static SpriteFont GetBtnReturntext()
+        public static SpriteFont GetDefaultText()
         {
             return btnReturnText;
         }

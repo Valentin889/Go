@@ -17,7 +17,8 @@ namespace Go
         Stone s;
         bool bStoneHere;
         private int iCountTakenStone;
-        private int iCountPoints;
+        private double iCountPoints;
+        private bool bIsWin;
         public Player(Color c, MainGo mainGo)
         {
             parent = mainGo;
@@ -26,9 +27,20 @@ namespace Go
             bStoneHere = false;
             iCountTakenStone = 0;
             iCountPoints = 0;
+            bIsWin = false;
         }
 
-
+        public bool IsWin
+        {
+            get
+            {
+                return bIsWin;
+            }
+            set
+            {
+                bIsWin = value;
+            }
+        }
         public List<Stone> GetLstStone()
         {
              return lstStones;
@@ -49,7 +61,7 @@ namespace Go
             }
         }
 
-        public int CountPoint
+        public double CountPoint
         {
             get
             {

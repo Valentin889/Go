@@ -12,7 +12,7 @@ namespace Go
     public class MainGo
     {
         private Board board;
-        
+
 
         private MainGo oldGame;
 
@@ -23,36 +23,48 @@ namespace Go
         private Button btnReturn;
         private Button btnPass;
         private Button btnEndGame;
+        private Button btnViewEndGame;
 
         private bool bStonePosed;
-        private const int lengthBoard = 7;
-        private const int sizeBoard=   MainGame.windowsHeight - 200;
-        private const int seperateLine= sizeBoard / (lengthBoard - 1);
+        private const int lengthBoard = 9;
+        private const int sizeBoard = MainGame.windowsHeight - 200;
+        private const int seperateLine = sizeBoard / (lengthBoard - 1);
         private const int boardPositionX = 150;
         private const int boardPositionY = 120;
         private const int btnSizeX = 120;
         private const int btnSizeY = 50;
+        private bool bIsInCount;
         private bool bIsOver;
         private Color colorDeadStoneEndGame;
+        private Color COLOR_PLAYER1;
+        private Color COLOR_PLAYER2;
 
         public MainGo()
         {
-
+            initialise();
+        }
+        private void initialise()
+        {
             board = new Board(this);
-            btnReturn = new Button("return",Ressource.GetBtnReturn(),10,10,0, btnSizeX, btnSizeY, this);
-            btnPass = new Button("pass", Ressource.GetBtnPass(), 10, 200, 1, btnSizeX, btnSizeY, this);
-            btnEndGame = new Button("End",Ressource.getBtnEndGame(),10,300,2,btnSizeX,btnSizeY,this);
+            btnReturn = new Button("return", Ressource.GetTexBtnDefault(), 10, 10, 0, btnSizeX, btnSizeY, this);
+            btnPass = new Button("pass", Ressource.GetTexBtnDefault(), 10, 200, 1, btnSizeX, btnSizeY, this);
+            btnEndGame = new Button("End", Ressource.GetTexBtnDefault(), 10, 300, 2, btnSizeX, btnSizeY, this);
+            btnViewEndGame = new Button("ViewEnd", Ressource.GetTexBtnDefault(), 0, 0, 3, sizeBoard, sizeBoard, this);
+
+            COLOR_PLAYER1 = Color.Black;
+            COLOR_PLAYER2 = Color.White;
 
             lstPlayers = new List<Player>();
-            lstPlayers.Add(new Player(Color.Black,this));
-            lstPlayers.Add(new Player(Color.White, this));
+            lstPlayers.Add(new Player(COLOR_PLAYER1, this));
+            lstPlayers.Add(new Player(COLOR_PLAYER2, this));
 
             tabStone = new Stone[lengthBoard][];
-            for(int i=0; i< lengthBoard; i++)
+            for (int i = 0; i < lengthBoard; i++)
             {
                 tabStone[i] = new Stone[lengthBoard];
             }
             bStonePosed = false;
+            bIsInCount = false;
             bIsOver = false;
             iCountMove = 0;
         }
@@ -73,7 +85,7 @@ namespace Go
 
             returnMainGo.board = this.board.Clone();
             returnMainGo.lstPlayers = new List<Player>();
-            foreach(Player p in this.lstPlayers)
+            foreach (Player p in this.lstPlayers)
             {
                 returnMainGo.lstPlayers.Add(p.Clone());
             }
@@ -81,7 +93,7 @@ namespace Go
             for (int i = 0; i < this.GetLengthBoard(); i++)
             {
                 returnMainGo.tabStone[i] = new Stone[this.GetLengthBoard()];
-                
+
             }
             returnMainGo.btnReturn = this.btnReturn;
             returnMainGo.bStonePosed = this.bStonePosed;
@@ -97,20 +109,20 @@ namespace Go
 
         private bool CompareThisAndOldGame()
         {
-            
-            
+
+
             for (int i = 0; i < lstPlayers.Count; i++)
             {
-                if(lstPlayers[i].Color!=oldGame.oldGame.lstPlayers[i].Color)
+                if (lstPlayers[i].Color != oldGame.oldGame.lstPlayers[i].Color)
                 {
                     return false;
                 }
-                if(lstPlayers[i].GetLstStone().Count!=oldGame.oldGame.lstPlayers[i].GetLstStone().Count)
+                if (lstPlayers[i].GetLstStone().Count != oldGame.oldGame.lstPlayers[i].GetLstStone().Count)
                 {
                     return false;
                 }
             }
-           
+
             return true;
         }
         private void CopyOldGame()
@@ -164,22 +176,22 @@ namespace Go
         }
         private void FillTabStone()
         {
-            for(int i=0;i<lengthBoard;i++)
+            for (int i = 0; i < lengthBoard; i++)
             {
-                for(int j=0; j<lengthBoard;j++)
+                for (int j = 0; j < lengthBoard; j++)
                 {
                     tabStone[i][j] = null;
                 }
             }
-            foreach(Player p in lstPlayers)
+            foreach (Player p in lstPlayers)
             {
-                foreach(Stone s in p.GetLstStone())
+                foreach (Stone s in p.GetLstStone())
                 {
                     tabStone[s.PositionX][s.PositionY] = s;
                 }
             }
         }
-         public Board GetBoard()
+        public Board GetBoard()
         {
             return board;
         }
@@ -202,52 +214,52 @@ namespace Go
 
             foreach (Stone s in p.GetLstStone())
             {
-                foreach(Stone s1 in p.GetLstStone())
+                foreach (Stone s1 in p.GetLstStone())
                 {
                     s1.IsAlreadyVisit = false;
                 }
-                s.IsAlive = IsCaptured(s,p.Color);
+                s.IsAlive = IsCaptured(s, p.Color);
             }
-            
+
         }
-        private bool IsCaptured(Stone s,Color c)
+        private bool IsCaptured(Stone s, Color c)
         {
-                bool bReturn = false;
-                s.IsAlreadyVisit = true;
+            bool bReturn = false;
+            s.IsAlreadyVisit = true;
 
-                int x = s.PositionX;
-                int y = s.PositionY;
+            int x = s.PositionX;
+            int y = s.PositionY;
 
-                int x1;
-                int y1;
+            int x1;
+            int y1;
 
-                for (int i = -1; i < 2; i++)
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
                 {
-                    for (int j = -1; j < 2; j++)
+                    if (!bReturn)
                     {
-                        if (!bReturn)
+                        if (i == 0 && j != 0 || j == 0 && i != 0)
                         {
-                            if (i == 0 && j != 0 || j == 0 && i != 0)
+                            x1 = x + i;
+                            y1 = y + j;
+                            if (x1 >= 0 && y1 >= 0 && x1 < lengthBoard && y1 < lengthBoard)
                             {
-                                x1 = x+i;
-                                y1 = y+j;
-                                if (x1 >= 0 && y1 >= 0 && x1 < lengthBoard && y1 < lengthBoard)
+                                if (tabStone[x1][y1] == null)
                                 {
-                                    if (tabStone[x1][y1] == null)
+                                    bReturn = true;
+                                }
+                                else
+                                {
+                                    if (tabStone[x1][y1].Color == c && !tabStone[x1][y1].IsAlreadyVisit)
                                     {
-                                        bReturn = true;
-                                    }
-                                    else
-                                    {
-                                        if (tabStone[x1][y1].Color == c && !tabStone[x1][y1].IsAlreadyVisit)
-                                        {
-                                            bReturn = IsCaptured(tabStone[x1][y1], c);
-                                        }
+                                        bReturn = IsCaptured(tabStone[x1][y1], c);
                                     }
                                 }
                             }
                         }
                     }
+                }
             }
             return bReturn;
         }
@@ -279,7 +291,7 @@ namespace Go
                     return false;
                 }
             }
-            else if(o.GetType()==typeof(Button))
+            else if (o.GetType() == typeof(Button))
             {
                 Button b = (Button)o;
             }
@@ -287,10 +299,10 @@ namespace Go
         }
         private Square GetSquareInPosition(int x, int y)
         {
-            Square square=null;
-            foreach(Square s in board.GetLstSquare())
+            Square square = null;
+            foreach (Square s in board.GetLstSquare())
             {
-                if(s.GetPositionX()==x&&s.GetPositionY()==y)
+                if (s.GetPositionX() == x && s.GetPositionY() == y)
                 {
                     square = s;
                 }
@@ -348,26 +360,268 @@ namespace Go
                 }
             }
         }
-     
 
+        private Stone GetStoneInPosition(int x, int y)
+        {
+            Stone stone = null;
+            foreach (Player p in lstPlayers)
+            {
+                foreach (Stone s in p.GetLstStone())
+                {
+                    if (s.PositionX == x && s.PositionY == y)
+                    {
+                        stone = s;
+                    }
+                }
+            }
+            return stone;
+        }
+
+        private int AddInGrSquare(List<Square> emptySquare, List<Square> grSquare, int x, int y)
+        {
+            bool bWhite = false;
+            bool bBlack = false;
+            if (x >= 0 && x < lengthBoard && y >= 0 && y < lengthBoard)
+            {
+                Square square = GetSquareInPosition(x, y);
+                if (emptySquare.Contains(square))
+                {
+                    if (!grSquare.Contains(square))
+                    {
+                        grSquare.Add(square);
+                    }
+                }
+                else
+                {
+                    if (GetStoneInPosition(x, y).Color == COLOR_PLAYER1)
+                    {
+                        bBlack = true;
+                    }
+                    else if (GetStoneInPosition(x, y).Color == COLOR_PLAYER2)
+                    {
+                        bWhite = true;
+                    }
+                }
+            }
+            if (bWhite && bBlack)
+            {
+                return 3;
+            }
+            if (bWhite)
+            {
+                return 2;
+            }
+            if (bBlack)
+            {
+                return 1;
+            }
+            return 0;
+        }
         private void CountPointEndGame()
         {
-           
+            List<Square> emptySquare = new List<Square>();
+            foreach (Square s in board.GetLstSquare())
+            {
+                bool b = true;
+                foreach (Player p in lstPlayers)
+                {
+                    foreach (Stone stone in p.GetLstStone())
+                    {
+                        if (stone.PositionX == s.GetPositionX() && stone.PositionY == s.GetPositionY())
+                        {
+                            b = false;
+                        }
+                    }
+                }
+                if (b)
+                {
+                    emptySquare.Add(s);
+                }
+            }
+            foreach (Square s in emptySquare)
+            {
+                List<Square> grSquare = new List<Square>();
+                if (s.GetEnumOccupation() == Square.occupate.Null)
+                {
+                    grSquare.Add(s);
+                }
+                bool bWhite = false;
+                bool bBlack = false;
+                int i = 0;
+                while (i < grSquare.Count)
+                {
+                    int x = grSquare[i].GetPositionX() - 1;
+                    int y = grSquare[i].GetPositionY();
+                    if (grSquare[i].GetEnumOccupation() == Square.occupate.Null)
+                    {
+                        int j = AddInGrSquare(emptySquare, grSquare, x, y);
+                        switch (j)
+                        {
+                            case 3:
+                                bWhite = true;
+                                bBlack = true;
+                                break;
+                            case 2:
+                                bWhite = true;
+                                break;
+                            case 1:
+                                bBlack = true;
+                                break;
+                            case 0:
+                                break;
+                        }
+                    }
+                    x += 2;
+                    if (grSquare[i].GetEnumOccupation() == Square.occupate.Null)
+                    {
+                        int j = AddInGrSquare(emptySquare, grSquare, x, y);
+                        switch (j)
+                        {
+                            case 3:
+                                bWhite = true;
+                                bBlack = true;
+                                break;
+                            case 2:
+                                bWhite = true;
+                                break;
+                            case 1:
+                                bBlack = true;
+                                break;
+                            case 0:
+                                break;
+                        }
+                    }
+                    x = grSquare[i].GetPositionX();
+                    y -= 1;
+                    if (grSquare[i].GetEnumOccupation() == Square.occupate.Null)
+                    {
+                        int j = AddInGrSquare(emptySquare, grSquare, x, y);
+                        switch (j)
+                        {
+                            case 3:
+                                bWhite = true;
+                                bBlack = true;
+                                break;
+                            case 2:
+                                bWhite = true;
+                                break;
+                            case 1:
+                                bBlack = true;
+                                break;
+                            case 0:
+                                break;
+                        }
+                    }
+                    y += 2;
+                    if (grSquare[i].GetEnumOccupation() == Square.occupate.Null)
+                    {
+                        int j = AddInGrSquare(emptySquare, grSquare, x, y);
+                        switch (j)
+                        {
+                            case 3:
+                                bWhite = true;
+                                bBlack = true;
+                                break;
+                            case 2:
+                                bWhite = true;
+                                break;
+                            case 1:
+                                bBlack = true;
+                                break;
+                            case 0:
+                                break;
+                        }
+                    }
+                    i++;
+                }
+                foreach (Square square in grSquare)
+                {
+                    if (bWhite && bBlack)
+                    {
+                        square.SetEnum(1);
+                    }
+                    else if (bWhite)
+                    {
+                        square.SetEnum(2);
+                    }
+                    else if (bBlack)
+                    {
+                        square.SetEnum(3);
+                    }
+                    else
+                    {
+                        square.SetEnum(0);
+                    }
+                }
+            }
+            int iBlack = 0;
+            int iWhite = 0;
+            foreach (Square s in emptySquare)
+            {
+                if (s.GetEnumOccupation() == Square.occupate.Black)
+                {
+                    iBlack++;
+                }
+                else if (s.GetEnumOccupation() == Square.occupate.White)
+                {
+                    iWhite++;
+                }
+            }
+            if (lstPlayers[0].Color == COLOR_PLAYER1)
+            {
+                lstPlayers[0].CountPoint = iBlack + lstPlayers[0].CountTakenStone;
+                lstPlayers[1].CountPoint = iWhite + lstPlayers[1].CountTakenStone + 6.5;
+            }
+            else
+            {
+                lstPlayers[0].CountPoint = iWhite + lstPlayers[0].CountTakenStone;
+                lstPlayers[1].CountPoint = iBlack + lstPlayers[1].CountTakenStone + 6.5;
+
+            }
         }
         public void Update(MouseState mouseState, KeyboardState keyBoard)
         {
             if (bIsOver)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                bool b = true;
+                if(bIsInCount)
                 {
-                    btnEndGame.Update(mouseState);
+                    if (mouseState.LeftButton == ButtonState.Released)
+                    {
+                        bIsInCount = false;
+                        b = true;
+                    }
+                    else
+                    {
+                        b = false;
+                    }
+                }
+                if (b)
+                {
+                    btnViewEndGame.Update(mouseState);
+                    if (btnViewEndGame.GetBtnIsViewEndGame())
+                    {
+                        initialise();
+                    }
+                }
+            }
+            else
+            {
+                if (bIsInCount)
+                {
+                        btnEndGame.Update(mouseState);
                     if (btnEndGame.GetBtnIsEndGame())
                     {
                         CountPointEndGame();
-
-
-
-
+                        if (lstPlayers[0].CountPoint > lstPlayers[1].CountPoint)
+                        {
+                            lstPlayers[0].IsWin = true;
+                        }
+                        else
+                        {
+                            lstPlayers[1].IsWin = true;
+                        }
+                        bIsOver = true;
                     }
                     else
                     {
@@ -414,114 +668,151 @@ namespace Go
                         }
                     }
                 }
-            }
-            else
-            {
-                btnReturn.Update(mouseState);
-                if (btnReturn.GetbtnReturnIsDelete())
+                else
                 {
-                    this.CopyOldGame();
-                    iCountMove--;
-                }
-                btnPass.Update(mouseState);
-                if (btnPass.GetbtnPassIsPass())
-                {
-                    this.oldGame = this.Clone();
-                    lstPlayers.Add(lstPlayers[0]);
-                    lstPlayers.Remove(lstPlayers[0]);
-                    btnPass.CountClickPass++;
-                    if (btnPass.CountClickPass == 2)
+                    btnReturn.Update(mouseState);
+                    if (btnReturn.GetbtnReturnIsDelete())
                     {
-                        bIsOver = true;
+                        this.CopyOldGame();
+                        iCountMove--;
                     }
-                }
-                board.Update(mouseState, keyBoard);
-                if (!bStonePosed)
-                {
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    btnPass.Update(mouseState);
+                    if (btnPass.GetbtnPassIsPass())
                     {
-                        if (lstPlayers[0].Update(mouseState, keyBoard))
+                        this.oldGame = this.Clone();
+                        lstPlayers.Add(lstPlayers[0]);
+                        lstPlayers.Remove(lstPlayers[0]);
+                        btnPass.CountClickPass++;
+                        if (btnPass.CountClickPass == 2)
                         {
-                            if (!lstPlayers[0].GetStoneHere())
+                            bIsInCount = true;
+                        }
+                    }
+                    board.Update(mouseState, keyBoard);
+                    if (!bStonePosed)
+                    {
+                        if (mouseState.LeftButton == ButtonState.Pressed)
+                        {
+                            if (lstPlayers[0].Update(mouseState, keyBoard))
                             {
-
-                                iCountMove++;
-                                btnPass.CountClickPass = 0;
-                                lstPlayers.Add(lstPlayers[0]);
-                                lstPlayers.Remove(lstPlayers[0]);
-                                FillTabStone();
-                                bStonePosed = true;
-
-                                SetDeadStones(lstPlayers[0]);
-                                List<Stone> deadStone = new List<Stone>();
-                                foreach (Stone s in lstPlayers[0].GetLstStone())
+                                if (!lstPlayers[0].GetStoneHere())
                                 {
-                                    if (!s.IsAlive)
-                                    {
-                                        deadStone.Add(s);
-                                        lstPlayers[1].CountTakenStone++;
-                                    }
-                                }
-                                List<Stone> newList = lstPlayers[0].GetLstStone();
-                                foreach (Stone s in deadStone)
-                                {
-                                    newList.Remove(s);
-                                }
-                                lstPlayers[0].SetListStone(newList);
-                                FillTabStone();
 
-
-                                SetDeadStones(lstPlayers[1]);
-                                bool b = false;
-                                foreach (Stone s in lstPlayers[1].GetLstStone())
-                                {
-                                    if (!s.IsAlive)
-                                    {
-                                        b = true;
-                                    }
-                                }
-                                if (b)
-                                {
-                                    Stone s = lstPlayers[1].GetLstStone()[lstPlayers[1].GetLstStone().Count - 1];
-                                    newList = lstPlayers[1].GetLstStone();
-                                    newList.Remove(s);
+                                    iCountMove++;
+                                    btnPass.CountClickPass = 0;
                                     lstPlayers.Add(lstPlayers[0]);
                                     lstPlayers.Remove(lstPlayers[0]);
                                     FillTabStone();
-                                }
-                                if (iCountMove > 1)
-                                {
-                                    if (CompareThisAndOldGame())
+                                    bStonePosed = true;
+
+                                    SetDeadStones(lstPlayers[0]);
+                                    List<Stone> deadStone = new List<Stone>();
+                                    foreach (Stone s in lstPlayers[0].GetLstStone())
                                     {
-                                        this.CopyOldGame();
-                                        iCountMove--;
+                                        if (!s.IsAlive)
+                                        {
+                                            deadStone.Add(s);
+                                            lstPlayers[1].CountTakenStone++;
+                                        }
+                                    }
+                                    List<Stone> newList = lstPlayers[0].GetLstStone();
+                                    foreach (Stone s in deadStone)
+                                    {
+                                        newList.Remove(s);
+                                    }
+                                    lstPlayers[0].SetListStone(newList);
+                                    FillTabStone();
+
+
+                                    SetDeadStones(lstPlayers[1]);
+                                    bool b = false;
+                                    foreach (Stone s in lstPlayers[1].GetLstStone())
+                                    {
+                                        if (!s.IsAlive)
+                                        {
+                                            b = true;
+                                        }
+                                    }
+                                    if (b)
+                                    {
+                                        Stone s = lstPlayers[1].GetLstStone()[lstPlayers[1].GetLstStone().Count - 1];
+                                        newList = lstPlayers[1].GetLstStone();
+                                        newList.Remove(s);
+                                        lstPlayers.Add(lstPlayers[0]);
+                                        lstPlayers.Remove(lstPlayers[0]);
+                                        FillTabStone();
+                                    }
+                                    if (iCountMove > 1)
+                                    {
+                                        if (CompareThisAndOldGame())
+                                        {
+                                            this.CopyOldGame();
+                                            iCountMove--;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (mouseState.LeftButton == ButtonState.Released)
+                    else
                     {
-                        bStonePosed = false;
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            bStonePosed = false;
+                        }
                     }
                 }
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            board.Draw(spriteBatch);
-            foreach(Player p in lstPlayers)
+            if (bIsOver)
             {
-                p.Draw(spriteBatch);
+                string strMessage;
+                double dblCountDifference;
+                if (lstPlayers[0].IsWin)
+                {
+                    if (lstPlayers[0].Color == COLOR_PLAYER1)
+                    {
+                        dblCountDifference = lstPlayers[0].CountPoint - lstPlayers[1].CountPoint;
+                        strMessage = "joueur 1 a gagne de " + dblCountDifference + " points";
+                    }
+                    else
+                    {
+                        dblCountDifference = lstPlayers[0].CountPoint - lstPlayers[1].CountPoint;
+                        strMessage = "joueur 2 a gagne de " + dblCountDifference + " points";
+                    }
+                }
+                else
+                {
+                    if (lstPlayers[1].Color == COLOR_PLAYER1)
+                    {
+                        dblCountDifference = lstPlayers[1].CountPoint - lstPlayers[0].CountPoint;
+                        strMessage = "joueur 1 a gagne de " + dblCountDifference + " points";
+                    }
+                    else
+                    {
+                        dblCountDifference = lstPlayers[1].CountPoint - lstPlayers[0].CountPoint;
+                        strMessage = "joueur 2 a gagne de " + dblCountDifference + " points";
+                    }
+
+                }
+                btnViewEndGame.ViewWhenWinner = strMessage;
+                btnViewEndGame.Draw(spriteBatch);
             }
-            btnReturn.Draw(spriteBatch);
-            btnPass.Draw(spriteBatch);
-            if(bIsOver)
+            else
             {
-                btnEndGame.Draw(spriteBatch);
+                board.Draw(spriteBatch);
+                foreach (Player p in lstPlayers)
+                {
+                    p.Draw(spriteBatch);
+                }
+                btnReturn.Draw(spriteBatch);
+                btnPass.Draw(spriteBatch);
+                if (bIsInCount)
+                {
+                    btnEndGame.Draw(spriteBatch);
+                }
             }
         }
     }

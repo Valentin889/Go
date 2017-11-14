@@ -25,7 +25,10 @@ namespace Go
         private bool bIsPass;
         private bool bBtnEndgame;
         private bool bIsEndGame;
+        private bool bBtnViewEndGame;
+        private bool bIsViewEndGame;
         private int iCountClickPass;
+        private string strViewWhenWinner;
 
         public int ButtonX
         {
@@ -60,8 +63,17 @@ namespace Go
             this.iCountClickPass = 0;
             this.bBtnEndgame = false;
             this.bIsEndGame = false;
+            strViewWhenWinner = "";
+            bBtnViewEndGame = false;
+            bIsViewEndGame = false;
         }
-
+        public string ViewWhenWinner
+        {
+            set
+            {
+                strViewWhenWinner = value;
+            }
+        }
        
         public bool EnterButton(MouseState mouseState)
         {
@@ -86,6 +98,11 @@ namespace Go
         {
             return bBtnEndgame;
         }
+
+        public bool GetBtnIsViewEndGame()
+        {
+            return bBtnViewEndGame;
+        }
         public int CountClickPass
         {
             get
@@ -102,6 +119,7 @@ namespace Go
             bBtnReturnIsDelete = false;
             bBtnIsPass = false;
             bBtnEndgame = false;
+            bBtnViewEndGame = false;
             if (EnterButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
             {
                 switch (iId)
@@ -109,25 +127,45 @@ namespace Go
                     case 0:
                         if (!bIsStoneDelete)
                         {
-                            bBtnReturnIsDelete = true;
                             bIsStoneDelete = true;
-                            bBtnEndgame = true;
+                            bIsPass = true;
+                            bIsEndGame = true;
+                            bIsViewEndGame = true;
+
+                            bBtnReturnIsDelete = true;
                         }
                         break;
                     case 1:
                         if (!bIsPass)
                         {
+                            bIsStoneDelete = true;
                             bIsPass = true;
+                            bIsEndGame = true;
+                            bIsViewEndGame = true;
+
                             bBtnIsPass = true;
-                            bBtnEndgame = true;
                         }
                         break;
                     case 2:
                         if(!bIsEndGame)
                         {
-                            bBtnReturnIsDelete = true;
                             bIsStoneDelete = true;
+                            bIsPass = true;
+                            bIsEndGame = true;
+                            bIsViewEndGame = true;
+
                             bBtnEndgame = true;
+                        }
+                        break;
+                    case 3:
+                        if(!bIsViewEndGame)
+                        {
+                            bIsStoneDelete = true;
+                            bIsPass = true;
+                            bIsEndGame = true;
+                            bIsViewEndGame = true;
+
+                            bBtnViewEndGame = true;
                         }
                         break;
                     default:
@@ -138,9 +176,21 @@ namespace Go
             {
                 if (mouseState.LeftButton == ButtonState.Released)
                 {
+                    switch (iId)
+                    {
+                        case 0:
                     bIsStoneDelete = false;
+                            break;
+                        case 1:
                     bIsPass = false;
+                            break;
+                        case 2:
                     bIsEndGame = false;
+                            break;
+                        case 3:
+                    bIsViewEndGame = false;
+                            break;
+                    }
                 }
             }
 
@@ -153,13 +203,16 @@ namespace Go
             switch(iId)
             {
                 case 0:
-                    spriteBatch.DrawString(Ressource.GetBtnReturntext(), "revenir en arriere ", new Vector2(buttonX,ButtonY), Color.Black);
+                    spriteBatch.DrawString(Ressource.GetDefaultText(), "revenir en arriere ", new Vector2(buttonX,ButtonY), Color.Black);
                     break;
                 case 1:
-                    spriteBatch.DrawString(Ressource.GetBtnpassText(), "Passer", new Vector2(buttonX, buttonY), Color.Black);
+                    spriteBatch.DrawString(Ressource.GetDefaultText(), "Passer", new Vector2(buttonX, buttonY), Color.Black);
                     break;
                 case 2:
-                    spriteBatch.DrawString(Ressource.GetBtnpassText(), "fin du jeu?", new Vector2(buttonX, buttonY), Color.Black);
+                    spriteBatch.DrawString(Ressource.GetDefaultText(), "fin du jeu?", new Vector2(buttonX, buttonY), Color.Black);
+                    break;
+                case 3:
+                    spriteBatch.DrawString(Ressource.GetDefaultText(), strViewWhenWinner, new Vector2(buttonX, buttonY), Color.Black);
                     break;
             }
 

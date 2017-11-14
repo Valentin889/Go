@@ -16,6 +16,34 @@ namespace Go
         private int iPositionY;
         private bool bIsAlreadyVisite;
         private int iEndGameColor;
+        private occupate enumOcupation;
+
+        public enum occupate
+        {
+            Null, Neutral,White,Black
+        }
+        public void SetEnum(int i)
+        {
+            switch(i)
+            {
+                case 0:
+                    enumOcupation = occupate.Null;
+                    break;
+                case 1:
+                    enumOcupation = occupate.Neutral;
+                    break;
+                case 2:
+                    enumOcupation = occupate.White;
+                    break;
+                case 3:
+                    enumOcupation = occupate.Black;
+                    break;
+            }
+        } 
+        public occupate GetEnumOccupation()
+        {
+            return enumOcupation;
+        }
         public Square(int x, int y, Board board)
         {
             iPositionX = x;
